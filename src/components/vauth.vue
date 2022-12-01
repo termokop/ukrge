@@ -31,7 +31,7 @@
                     type="password" 
                     :disabled="!isLogin"
                     >
-                    <p v-if="inputErrors.password.length>1" class="inputErrors"> {{inputErrors.password[0]}} </p>
+                    <p v-if="(inputErrors.password.length>0)" class="inputErrors"> {{inputErrors.password[0]}} </p>
                 </div>
               </fieldset>
               <button 
@@ -71,7 +71,7 @@
                     id="signup-password" 
                     type="password" 
                     :disabled="isLogin">
-                    <p v-if="inputErrors.password.length>1" class="inputErrors"> {{inputErrors.password[0]}} </p>
+                    <p v-if="(inputErrors.password.length>0)" class="inputErrors"> {{inputErrors.password[0]}} </p>
                 </div>
                 <div class="input-block">
                   <label for="signup-password-confirm">{{ dictionary.repeatPassword[language] }}</label>
@@ -190,19 +190,16 @@
         },
         emailValidation() {
             if(this.inputLogin.length>5 && ~this.inputLogin.indexOf('@') && ~this.inputLogin.indexOf('.')) this.inputErrors.email = []
-            else this.inputErrors.email[0] = ("Некоректний email")
+            else this.inputErrors.email[0] = (dictionary.uncorrectEmail[this.language])
         },
         passwordValidation() {
             // ------------------------- зробити нормальну валідацію пароля
-            
-
-
            if(this.inputPassword.length>7) this.inputErrors.password = []
-            else this.inputErrors.password.push("Пароль має містити мінімум 8 символів")
+            else this.inputErrors.password[0] = (dictionary.uncorrectPassword[this.language])
         },
         passwordRepeatValidation() {
             if(this.inputRepeatPassword === this.inputPassword) this.inputErrors.repeatPassword = []
-            else this.inputErrors.repeatPassword[0] = ("Паролі мають співпадати")
+            else this.inputErrors.repeatPassword[0] = (dictionary.uncorrectRepeatPassword[this.language])
         }
         
 
