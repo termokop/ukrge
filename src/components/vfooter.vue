@@ -25,13 +25,14 @@ export default {
 
 <style scoped> 
     .footer {
-        display: flex;
+        width: fit-content;
         margin: auto;
     }
     .list {
         display: flex;
         align-items: center;
-        margin: auto;
+        margin: 5px;
+        padding: 0;
         
     }
     .list-item {

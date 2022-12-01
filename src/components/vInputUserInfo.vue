@@ -335,7 +335,6 @@
       
     </form>
     </div>
-    <button class="button" @click="check">check!</button>
     
 </template>
 
@@ -392,7 +391,6 @@ export default {
         jwt: undefined
       }
       this.newInfo = userNewInfo
-      //this.$emit('update-user-info', userNewInfo)
       this.updateUserInfo()
     },
     async updateUserInfo() {
@@ -401,33 +399,27 @@ export default {
         const url = 'http://ukrgeserver/api/update_user.php'
         const json = JSON.stringify(this.newInfo)
         
-            try {
-                let response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*' 
-                    },
-                    body: json
-                    });
-                let result = await response.json()
-                console.log(result)
-                const person = JSON.stringify(result.userInfo)
-                this.setCookies('userInfo', person, 1)
-
-                alert('Success updated')
-                //this.$emit('user-updated-success', result)
-            } catch (error) {
-                console.log(error)
-            }
+        try {
+            let response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': '*' 
+              },
+              body: json
+            });
+            let result = await response.json()
+            console.log(result)
+            const person = JSON.stringify(result.userInfo)
+            this.setCookies('userInfo', person, 1)
+            alert('Success updated')
+        } catch (error) {
+            console.log(error)
+        }
             
       },
-    check() {
-      console.log(this.userInfo)
-    },
     setCookies(cname, cvalue, exdays) {
-        //збереження нового JWT ключа в куках
             const d = new Date();
             d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
             const expires = "expires=" + d.toUTCString();
@@ -436,15 +428,6 @@ export default {
       },
   },
   mounted() {
-        // this.name =  this.userInfo.name,
-        // this.nickname = this.userInfo.nickname,
-        // this.gender = this.userInfo.gender,
-        // this.birth = this.userInfo.birth,
-        // this.country = this.userInfo.country,
-        // this.lang = this.userInfo.lang,
-        // this.phone = this.userInfo.phone,
-        // this.about_yourself = this.userInfo.about_yourself
-        // console.log("I am mounted",this.userInfo)
   }
         
   

@@ -1,10 +1,16 @@
 <template>
-      <h1>You are insade, {{this.userInfo.name}}!</h1>
-      <button value="Exit" @click.prevent="this.$emit('logout')">Exit</button> <!--реалізація кнопки виходу-->
+      <h1>Let`s study, {{this.userInfo.name}}!</h1>
+      <div class="buttons">
+        <button  @click.prevent="this.$emit('logout')">Exit</button> <!--реалізація кнопки виходу-->
+        <button  @click.prevent="showEditeProfile" v-if="!showEdit" >Edit Info</button> <!--реалізація кнопки виходу-->
+        <button  @click.prevent="showEditeProfile" v-if="showEdit" >Go study!</button> <!--реалізація кнопки виходу-->
+      </div>
+      
       <!--анкета користувача, яка автоматично з'являється при першому вході-->
       <vInputUserInfo  
-        :userInfo="userInfo" 
-        ></vInputUserInfo> <!--v-if="userInfo.nickname"-->
+        :userInfo="userInfo"
+        v-if="showEdit" 
+        ></vInputUserInfo> 
 </template>
 
 <script>
@@ -22,7 +28,8 @@ export default {
     emits: ['logout'],
     data() {
         return {
-            userInfo: undefined
+            userInfo: undefined,
+            showEdit: !this.userInfo?.nickname
         }
         
     },
@@ -43,12 +50,17 @@ export default {
         }
         return "";
       },
+      showEditeProfile() {
+        this.showEdit = !this.showEdit
+        console.log('show edit compotent')
+        console.log(this.showEdit)
+      },
 
     },
     created() {
-        //this.userInfo = JSON.parse(this.getCookies('userInfo'))
         this.userInfo = JSON.parse(this.getCookies('userInfo'))
-        console.log(JSON.parse(this.getCookies('userInfo')))
+        console.log("U r this person:", JSON.parse(this.getCookies('userInfo')))
+        this.showEdit = !this.userInfo?.nickname
     },
     computed: {
         
@@ -62,11 +74,18 @@ export default {
 h1 {
     text-shadow: 1px 1px 2px rgb(159, 159, 159), 0 0 1em rgb(0, 0, 0), 0 0 0.5em rgb(0, 0, 0);
     color: #fff;
-    background-color: aqua;
+    width: fit-content;
+    margin: auto;
 }
 button {
-    width: 50px;
-    height: 30px;
+    width: 100px;
+    height: fit-content;
+    margin: 10px;
+}
+
+.buttons {
+    width: fit-content;
+    margin: auto;
 }
 
 </style>
