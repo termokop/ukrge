@@ -1,9 +1,9 @@
 <template>
       <h1>You are insade, {{this.userInfo.name}}!</h1>
       <button value="Exit" @click.prevent="this.$emit('logout')">Exit</button> <!--реалізація кнопки виходу-->
+      <!--анкета користувача, яка автоматично з'являється при першому вході-->
       <vInputUserInfo  
         :userInfo="userInfo" 
-        @update-user-info="updateUserInfo"
         ></vInputUserInfo> <!--v-if="userInfo.nickname"-->
 </template>
 
@@ -22,7 +22,7 @@ export default {
     emits: ['logout'],
     data() {
         return {
-            userInfo: JSON.parse(this.getCookies('userInfo'))
+            userInfo: undefined
         }
         
     },
@@ -43,35 +43,12 @@ export default {
         }
         return "";
       },
-      async updateUserInfo(userNewInfo) {
-        userNewInfo.jwt = this.getCookies('jwt')
-        console.log(JSON.stringify( userNewInfo))
-        const url = 'http://ukrgeserver/api/update_user.php'
-        const json = JSON.stringify(userNewInfo)
-        
-            try {
-                let response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*' 
-                    },
-                    body: json
-                    });
-                let result = await response.json()
-                console.log(result)
 
-                alert('Success updated')
-                //this.$emit('user-updated-success', result)
-            } catch (error) {
-                console.log(error)
-            }
-            
-      }
     },
     created() {
         //this.userInfo = JSON.parse(this.getCookies('userInfo'))
+        this.userInfo = JSON.parse(this.getCookies('userInfo'))
+        console.log(JSON.parse(this.getCookies('userInfo')))
     },
     computed: {
         

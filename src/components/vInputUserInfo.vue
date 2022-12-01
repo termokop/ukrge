@@ -345,9 +345,9 @@ export default {
   props: {
     userInfo: Object
   },
-  emits: ['update-user-info'],
   data() {
       return {
+        newInfo: this.userInfo,
         name: this.userInfo.name,
         nickname: this.userInfo.nickname,
         gender: this.userInfo.gender,
@@ -359,6 +359,23 @@ export default {
       }
   },
   methods: {
+    getCookies(cname) {
+        //зччитування JWT ключа для перевірки валідації токена
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(";");
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == " ") {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+      },
+
     saveUserInfo() {
       let userNewInfo = {
         email: this.userInfo.email,
@@ -371,10 +388,41 @@ export default {
         phone: this.phone,
         about_yourself: this.about_yourself,
         id: this.userInfo.id,
-        icon: this.userInfo.icon
+        icon: this.userInfo.icon,
+        jwt: undefined
       }
-      this.$emit('update-user-info', userNewInfo)
+      this.newInfo = userNewInfo
+      //this.$emit('update-user-info', userNewInfo)
+      this.updateUserInfo()
     },
+    async updateUserInfo() {
+        this.newInfo.jwt = this.getCookies('jwt')
+        console.log(JSON.stringify( this.newInfo))
+        const url = 'http://ukrgeserver/api/update_user.php'
+        const json = JSON.stringify(this.newInfo)
+        
+            try {
+                let response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*' 
+                    },
+                    body: json
+                    });
+                let result = await response.json()
+                console.log(result)
+                const person = JSON.stringify(result.userInfo)
+                this.setCookies('userInfo', person, 1)
+
+                alert('Success updated')
+                //this.$emit('user-updated-success', result)
+            } catch (error) {
+                console.log(error)
+            }
+            
+      },
     check() {
       console.log(this.userInfo)
     },
