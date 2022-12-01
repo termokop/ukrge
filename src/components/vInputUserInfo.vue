@@ -1,11 +1,11 @@
 <template>
-    <h2>Поділися інформацією про себе</h2>
+    <h2>{{dictionary.title[language]}}</h2>
     <div class="form">
       <form class="form">
       <table>
         <tr>
           <td>
-            <label for="name">Ім'я:*</label>
+            <label for="name">{{dictionary.name[language]}}:*</label>
           </td>
           <td>
             <input 
@@ -19,7 +19,7 @@
         </tr>
         <tr>
           <td>
-            <label for="nickname">Нікнейм:*</label>
+            <label for="nickname">{{dictionary.nickname[language]}}:*</label>
           </td>
           <td>
             <input 
@@ -33,19 +33,19 @@
         </tr>
         <tr>
           <td>
-            <label>Ти казак чи козачка?*</label>
+            <label>{{dictionary.gender[language]}}*</label>
           </td>
           <td class="radio">
             <input  type="radio" name="gender" value="M" id="m" v-model="gender">
-            <label  for="m">Козак</label>
+            <label  for="m">{{dictionary.genderM[language]}}</label>
             <br>
             <input  type="radio" name="gender" value="W" id="w" v-model="gender">
-            <label  for="w">Козачка</label>
+            <label  for="w">{{dictionary.genderW[language]}}</label>
           </td>
         </tr>
         <tr>
           <td>
-            <label for="birth">Вкажіть дату вашого народження:*</label>
+            <label for="birth">{{dictionary.birth[language]}}:*</label>
           </td>
           <td>
             <input type="date" id="birth" v-model="birth">
@@ -53,7 +53,7 @@
         </tr>
         <tr>
           <td>
-            <label for="country">Виберіть Вашу країну проживання:*</label>
+            <label for="country">{{dictionary.country[language]}}:*</label>
           </td>
           <td>
             <select id="country" required v-model="country">
@@ -305,18 +305,18 @@
         </tr>
         <tr>
           <td>
-            <label for="course">Оберіть курс*:</label>
+            <label for="course">{{dictionary.course[language]}}*:</label>
           </td>
           <td>
             <select id="course" required v-model="lang">
-              <option value="ge" >Вчити українську (я знаю грузинську)</option>
-              <option value="ua">Вчити грузинську (я знаю українську)</option>
+              <option value="ge" >{{dictionary.courseGE[language]}}</option>
+              <option value="ua">{{dictionary.courseUA[language]}}</option>
             </select>
           </td>
         </tr>
         <tr>
           <td>
-            <label for="phone">Ваш номер телефону</label>
+            <label for="phone">{{dictionary.phone[language]}}</label>
           </td>
           <td>
             <input type="tel" id="phone" maxlength="16" placeholder="911" v-model="phone">
@@ -324,14 +324,14 @@
         </tr>
         <tr>
           <td>
-            <label for="about_yourself">Пару слів про Вас...</label>
+            <label for="about_yourself">{{dictionary.aboutYourself[language]}}:</label>
           </td>
           <td>
             <textarea id="about_yourself" cols="20" rows="5" placeholder="your hobby, credo, lifestyle...." maxlength="100" v-model="about_yourself"></textarea>
           </td>
         </tr>
       </table>
-      <input class="button" type="submit" value="Надіслати" @click.prevent="saveUserInfo" >
+      <input class="button" type="submit" :value="dictionary.submit[language]" @click.prevent="saveUserInfo" >
       
     </form>
     </div>
@@ -339,13 +339,17 @@
 </template>
 
 <script>
+import dictionary from './dictionary/inputUserInfo';
 export default {
   name: 'vInputUserInfo',
+  emits: ['canGoStudy'],
   props: {
-    userInfo: Object
+    userInfo: Object,
+    language: String
   },
   data() {
       return {
+        dictionary,
         newInfo: this.userInfo,
         name: this.userInfo.name,
         nickname: this.userInfo.nickname,
@@ -410,7 +414,8 @@ export default {
               body: json
             });
             let result = await response.json()
-            console.log(result)
+            console.log(result.userInfo.nickname)
+            this.$emit('canGoStudy', result.userInfo.nickname)
             const person = JSON.stringify(result.userInfo)
             this.setCookies('userInfo', person, 1)
             alert('Success updated')

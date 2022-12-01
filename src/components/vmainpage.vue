@@ -1,20 +1,24 @@
 <template>
-      <h1>Let`s study, {{this.userInfo.name}}!</h1>
+      <h1>{{dictionary.title[language]}}, {{this.userInfo.name}}!</h1>
       <div class="buttons">
-        <button  @click.prevent="this.$emit('logout')">Exit</button> <!--реалізація кнопки виходу-->
-        <button  @click.prevent="showEditeProfile" v-if="!showEdit" >Edit Info</button> <!--реалізація кнопки виходу-->
-        <button  @click.prevent="showEditeProfile" v-if="showEdit" >Go study!</button> <!--реалізація кнопки виходу-->
-      </div>
+        <button  @click.prevent="showEditeProfile" v-if="!showEdit" >{{dictionary.editProfile[language]}}</button> <!--реалізація кнопки виходу-->
+        <button  @click.prevent="showEditeProfile" v-if="showEdit" :disabled="canStudy" >{{dictionary.study[language]}}</button> <!--реалізація кнопки виходу-->
+        <button  @click.prevent="this.$emit('logout')">{{dictionary.logout[language]}}</button> <!--реалізація кнопки виходу-->
+        
+    </div>
       
       <!--анкета користувача, яка автоматично з'являється при першому вході-->
       <vInputUserInfo  
         :userInfo="userInfo"
         v-if="showEdit" 
+        @canGoStudy="canStudyEmit"
+        :language="language"
         ></vInputUserInfo> 
 </template>
 
 <script>
 import vInputUserInfo from './vInputUserInfo.vue'
+import dictionary from './dictionary/main.js'
 
 export default {
     name: "vMainPage",
@@ -23,17 +27,22 @@ export default {
 
   },
     props: {
-        
+        language: String
     },
     emits: ['logout'],
     data() {
         return {
+            dictionary,
             userInfo: undefined,
-            showEdit: !this.userInfo?.nickname
+            showEdit: !this.userInfo?.nickname,
+            canStudy: undefined
         }
         
     },
     methods: {
+        canStudyEmit(nickname) {
+            this.canStudy = !nickname
+        },
         getCookies(cname) {
         //зччитування JWT ключа для перевірки валідації токена
         let name = cname + "=";
@@ -52,18 +61,16 @@ export default {
       },
       showEditeProfile() {
         this.showEdit = !this.showEdit
-        console.log('show edit compotent')
-        console.log(this.showEdit)
       },
 
     },
     created() {
         this.userInfo = JSON.parse(this.getCookies('userInfo'))
-        console.log("U r this person:", JSON.parse(this.getCookies('userInfo')))
+        //console.log("U r this person:", JSON.parse(this.getCookies('userInfo')))
         this.showEdit = !this.userInfo?.nickname
+        this.canStudy = !this.userInfo.nickname
     },
     computed: {
-        
     }
 
 }
@@ -78,9 +85,10 @@ h1 {
     margin: auto;
 }
 button {
-    width: 100px;
-    height: fit-content;
+    width: 250px;
+    height: 50px;
     margin: 10px;
+    font-size: 1rem;
 }
 
 .buttons {

@@ -99,15 +99,16 @@
   </template>
   
   <script>
+  import dictionary from "./dictionary/auth.js"
   export default {
     name: 'vAuth',
     props: {
-        dictionary: Object,
         language: String
     },
     emits: ['user-loginned-success'],
     data() {
       return {
+        dictionary,
         isLogin: true,
         inputLogin: '',
         inputPassword: '',
@@ -123,6 +124,7 @@
         // вибір форми логін
         chooseLoginIn() {
             this.isLogin = true
+            console.log('i cat tell u:' , dictionary)
         },
         chooseSingUp() {
             // вибір форми реєстрації

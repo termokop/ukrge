@@ -14,11 +14,16 @@
 </template>
 
 <script>
+import dictionary from "./dictionary/header"
 export default {
     name: 'vHeader',
     props: {
-        dictionary: Object,
         language: String
+    },
+    data() {
+        return {
+            dictionary
+        }
     },
     methods: {
         addToCart() {

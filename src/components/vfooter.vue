@@ -2,21 +2,30 @@
      <div class="footer">
         <ul class="list">
             <li class="list-item">
-                <a href="#">Про нас</a>
+                <a href="#">{{dictionary.about[language]}}</a>
             </li>
             <li class="list-item">
-                <a href="#">Співпраця</a>
+                <a href="#">{{dictionary.cooper[language]}}</a>
             </li>
             <li class="list-item">
-                <a href="#">Ще щось</a>
+                <a href="#">{{dictionary.something[language]}}</a>
             </li>
         </ul>
       </div>
 </template>
 
 <script>
+import dictionary from './dictionary/footer';
 export default {
-    name: 'vFooter'
+    name: 'vFooter',
+    props: {
+        language: String
+    },
+    data() {
+        return {
+            dictionary
+        }
+    }
 }
 
 

@@ -1,16 +1,15 @@
 <template>
   <vHeader 
-    :dictionary="dictionary.header" 
     :language="language" 
     @change-lang="updateLang" 
     ></vHeader>
   
-  <vAuth v-if="!isUserLoggined" :dictionary="dictionary.auth" :language="language"  @user-loginned-success="login"></vAuth>
+  <vAuth v-if="!isUserLoggined" :language="language"  @user-loginned-success="login"></vAuth>
   
 
-  <vMainPage v-if="isUserLoggined" @logout="logout"></vMainPage>
+  <vMainPage v-if="isUserLoggined" @logout="logout" :language="language"></vMainPage>
 
-  <vFooter></vFooter>
+  <vFooter :language="language"></vFooter>
 
 </template>
 
@@ -34,45 +33,7 @@ export default {
         return {
             isUserLoggined: true,
             language: 'ua',
-            dictionary: {
-                header: {
-                  ua: "Створені, що об'єднати",
-                  ge: "შექმნილია ერთიანობისთვის"
-                },
-                auth: {
-                  title: {
-                    ua: "Мова - ключ до кращого розуміння один одного",
-                    ge: "ენა არის ერთმანეთის უკეთ გაგების გასაღები"
-                  },
-                  logIn: {
-                    ua: "Вхід",
-                    ge: "შესვლა"
-                  },
-                  signUp: {
-                    ua: "Реєстрація",
-                    ge: "დარეგისტრირდით"
-                  },
-                  password: {
-                    ua: "Пароль",
-                    ge: "პაროლი"
-                  },
-                  repeatPassword: {
-                    ua: "Повторіть пароль",
-                    ge: "გაიმეორეთ პაროლი"
-                  },
-                  fillLoginForm: {
-                    ua: "Введіть Ваш логін та пароль",
-                    ge: "შეიყვანეთ თქვენი შესვლა და პაროლი"
-                  },
-                  fillSignupForm: {
-                    ua: "Заповніть поля для реєстрації",
-                    ge: "შეავსეთ ველები რეგისტრაციისთვის"
-                  }
-                  
-                  
-                }
-              }
-            
+                       
         }
     },
     methods: {
@@ -80,11 +41,6 @@ export default {
       updateLang(index) {
         this.language = index
       },
-      // updatedUserInfo(result) {
-      //   this.setCookies('jwt', result.jwt, 1)
-      //   let res_str = JSON.stringify( result.userInfo)
-      //   this.setCookies('userInfo',res_str,1)
-      // },
       login(result) {
         //метод щоб залогіниться
         this.setCookies('jwt', result.jwt, 1)
