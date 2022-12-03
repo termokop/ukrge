@@ -9,7 +9,11 @@
 
   <vMainPage v-if="isUserLoggined" @logout="logout" :language="language"></vMainPage>
 
+  
   <vFooter :language="language"></vFooter>
+
+  <vLoader :loader="loader"></vLoader>
+  
 
 </template>
 
@@ -19,6 +23,7 @@ import vHeader from './components/vheader.vue'
 import vAuth from './components/vauth.vue'
 import vMainPage from './components/vmainpage.vue'
 import vFooter from './components/vfooter.vue'
+import vLoader from './components/vLoader.vue'
 
 export default {
   name: 'App',
@@ -26,13 +31,15 @@ export default {
     vHeader,
     vAuth,
     vMainPage,
-    vFooter
+    vFooter,
+    vLoader,
 
   },
   data() {
         return {
             isUserLoggined: true,
             language: 'ua',
+            loader: false
                        
         }
     },
@@ -58,7 +65,7 @@ export default {
       logout() {
         // метод щоб розлогіниться
         this.setCookies('jwt', '', 1)
-        this.setCookies('userInfo', null, 1)
+        this.setCookies('userInfo', null, 0)
       },
       getCookies(cname) {
         //зччитування JWT ключа для перевірки валідації токена
@@ -78,14 +85,26 @@ export default {
       }
     },
     created() {
-      //перевірка на наявність токена в куках
+      //перевірка на наявність токена в куках #245e06
       // якщо токена там немає, то показувати головну сторінку
       this.isUserLoggined = this.getCookies('jwt')
+
+      //якщо юзер авторизований, то показувати мову інтерфейсу залежно від обраного курсу
+      // якщо курс ще не обрано -- показувати укр мову
+      let user = this.getCookies('userInfo')/// 
+      if (user) {
+        this.language = JSON.parse(user)?.lang
+      } else this.language = 'ua'
+
     },
     computed: {
 
     }
 }
+// 053f03 correct ans color
+// 6e0000 uncor -//-
+// 290145
+// #000057
 </script>
 
 <style>
@@ -95,5 +114,9 @@ export default {
 }
 body {
   background: #1d1d1d;
+  
+  position: relative;
 }
+
+
 </style>

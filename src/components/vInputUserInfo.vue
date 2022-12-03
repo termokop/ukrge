@@ -1,7 +1,8 @@
 <template>
+  <vLoader :loader="loader"></vLoader>
     <h2>{{dictionary.title[language]}}</h2>
     <div class="form">
-      <form class="form">
+      <form >
       <table>
         <tr>
           <td>
@@ -340,8 +341,12 @@
 
 <script>
 import dictionary from './dictionary/inputUserInfo';
+  import vLoader from "./vLoader.vue"
 export default {
   name: 'vInputUserInfo',
+    components: {
+        vLoader
+    },
   emits: ['canGoStudy'],
   props: {
     userInfo: Object,
@@ -349,6 +354,7 @@ export default {
   },
   data() {
       return {
+        loader: false,
         dictionary,
         newInfo: this.userInfo,
         name: this.userInfo.name,
@@ -398,6 +404,7 @@ export default {
       this.updateUserInfo()
     },
     async updateUserInfo() {
+      this.loader = true
         this.newInfo.jwt = this.getCookies('jwt')
         console.log(JSON.stringify( this.newInfo))
         const url = 'http://ukrgeserver/api/update_user.php'
@@ -421,6 +428,8 @@ export default {
             alert('Success updated')
         } catch (error) {
             console.log(error)
+        } finally {
+          this.loader = false
         }
             
       },
@@ -457,6 +466,9 @@ h2 {
   align-items: center;
   font-size: larger;
   color: #FFF;
+  background: #2d2d2d;
+  border: 5px solid rgb(13, 154, 55);
+  border-radius: 10px;
 }
 
 table {
@@ -467,9 +479,11 @@ input, textarea, select {
   border: 0px solid red;
   width: 100%;
   font-size: large;
-  background: black;
+  background: #1d1d1d;
   color: #fff;
   box-shadow: none;
+  border-radius: 10px;
+  border: 2px solid black;
 }
 
 td{
@@ -484,6 +498,7 @@ td{
   color: #fff;
   padding: 10px;
   font-size: larger;
+  width: 50%;
 }
 
 textarea { 

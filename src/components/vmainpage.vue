@@ -13,17 +13,27 @@
         v-if="showEdit" 
         @canGoStudy="canStudyEmit"
         :language="language"
-        ></vInputUserInfo> 
+        >
+    </vInputUserInfo> 
+
+    <studyMenu
+        :language="language"
+        v-if="!showEdit">
+    </studyMenu>
+
+
 </template>
 
 <script>
 import vInputUserInfo from './vInputUserInfo.vue'
 import dictionary from './dictionary/main.js'
+import studyMenu from './vStudyMenu.vue'
 
 export default {
     name: "vMainPage",
     components: {
-    vInputUserInfo
+    vInputUserInfo,
+    studyMenu
 
   },
     props: {
@@ -88,7 +98,8 @@ button {
     width: 250px;
     height: 50px;
     margin: 10px;
-    font-size: 1rem;
+    font-size: 1.2rem;
+    border-radius: 10px;
 }
 
 .buttons {

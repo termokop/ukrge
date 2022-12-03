@@ -50,12 +50,12 @@ export default {
         justify-content: center;
         align-content: center;
         font-size: 13px;
-        background-color: rgb(150, 11, 11);
+        background-color: #0000cc;
         border-radius: 5px;
         padding: 5px;
     }
     a{
-        color: rgb(0, 0, 0);
+        color: rgb(255, 255, 255);
         text-decoration: none;
     }
 </style>

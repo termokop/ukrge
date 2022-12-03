@@ -1,4 +1,6 @@
 <template>
+    
+    <vLoader :loader="loader"></vLoader>
     <div class="forms-section">
         <h1 class="section-title">{{ dictionary.title[language] }}</h1>
         <div class="forms">
@@ -100,14 +102,19 @@
   
   <script>
   import dictionary from "./dictionary/auth.js"
+  import vLoader from "./vLoader.vue"
   export default {
     name: 'vAuth',
+    components: {
+        vLoader
+    },
     props: {
         language: String
     },
     emits: ['user-loginned-success'],
     data() {
       return {
+        loader: false,
         dictionary,
         isLogin: true,
         inputLogin: '',
@@ -131,7 +138,7 @@
             this.isLogin = false
         },
         async login() { // що відбувається, коли користувач натискає кнопку ЛОГІН
-            //-----------тут має бути перевірка валідності форми входу
+            this.loader = true
             const url = 'http://ukrgeserver/api/login.php'
             let data = {
                 email: this.inputLogin,
@@ -149,16 +156,18 @@
                     });
                 let result = await response.json()
 
-                alert('Success')
+                //alert('Success')
                 this.$emit('user-loginned-success', result)
             } catch (error) {
-                alert("Не вдалося ввійти")
+                //alert("Не вдалося ввійти")
+            } finally {
+                this.loader = false
             }
             
 
         },
         async signup() { // метод книпки реєстрації
-            
+            this.loader = true
             const url = 'http://ukrgeserver/api/create_user.php'
             let data = {
                 email: this.inputLogin,
@@ -185,6 +194,8 @@
             } catch (error) {
                 console.log(error)
                 alert('Не вдалося створити користувача')
+            } finally {
+                this.loader = false
             }
             
         },
