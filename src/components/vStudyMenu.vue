@@ -1,7 +1,7 @@
 <template>
     
-    <vQuizz></vQuizz>
-    <div class="studyMenu" v-if="false">
+    <vQuizz v-if="false"></vQuizz>
+    <div class="studyMenu">
         <button class="element" @click="startQuizz">
             <p class="counter">2/5</p>
             <p class="title">Tutorial</p>
