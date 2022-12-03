@@ -1,5 +1,11 @@
 <template>
+  
+  <div class="bg" v-if="(loader === true)">
+    
+  </div>
+  
     <div class="lds-ellipsis" v-if="(loader === true)">
+      
         <div>
 
         </div>
@@ -26,6 +32,17 @@
 </script>
 
 <style scoped>
+.bg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  opacity: 30%;
+  background-color: white;
+  z-index: 10;
+}
+
     /* animation for load....*/
 .lds-ellipsis {
   width: 80px;
@@ -36,6 +53,7 @@
   margin-right: -50%;
   transform: translate(-50%, -50%);
   z-index: 999999;
+  opacity: 100%;
 }
 .lds-ellipsis div {
   position: fixed;
