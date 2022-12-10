@@ -405,32 +405,32 @@ export default {
     },
     async updateUserInfo() {
       this.loader = true
-        this.newInfo.jwt = this.getCookies('jwt')
-        console.log(JSON.stringify( this.newInfo))
-        const url = 'http://ukrgeserver/api/update_user.php'
-        const json = JSON.stringify(this.newInfo)
-        
-        try {
-            let response = await fetch(url, {
-              method: 'POST',
-              headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Access-Control-Allow-Origin': '*' 
-              },
-              body: json
-            });
-            let result = await response.json()
-            console.log(result.userInfo.nickname)
-            this.$emit('canGoStudy', result.userInfo.nickname)
-            const person = JSON.stringify(result.userInfo)
-            this.setCookies('userInfo', person, 1)
-            alert('Success updated')
-        } catch (error) {
-            console.log(error)
-        } finally {
-          this.loader = false
-        }
+      this.newInfo.jwt = this.getCookies('jwt')
+      console.log(JSON.stringify( this.newInfo))
+      const url = 'http://ukrgeserver/api/update_user.php'
+      const json = JSON.stringify(this.newInfo)
+      
+      try {
+          let response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*' 
+            },
+            body: json
+          });
+          let result = await response.json()
+          console.log(result.userInfo.nickname)
+          this.$emit('canGoStudy', result.userInfo.nickname)
+          const person = JSON.stringify(result.userInfo)
+          this.setCookies('userInfo', person, 1)
+          alert('Success updated')
+      } catch (error) {
+          console.log(error)
+      } finally {
+        this.loader = false
+      }
             
       },
     setCookies(cname, cvalue, exdays) {

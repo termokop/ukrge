@@ -114,7 +114,7 @@ export default {
 }
 body {
   background: #1d1d1d;
-  
+  min-width: 575px;
   position: relative;
 }
 
