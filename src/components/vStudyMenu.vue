@@ -71,7 +71,7 @@ export default {
                 });
                 let result = await response.json()
                 if (result.task.length < 1) {
-                    throw new Error('nof found')
+                    throw new Error('not found any tasks')
                 }
                 this.quiz = result.task
                 this.openQuiz = true

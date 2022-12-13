@@ -1,19 +1,39 @@
 <template>
-<div class="quizz">
-<vTask v-if="!showScore" :task="quiz[counter]" @nextTask="nextTask"></vTask>
-<vScore v-if="showScore" :score="score" :maxScore="quiz.length * 4"></vScore>
-</div>
+    <div class="quizz">
+        <vTask 
+            v-if="!showScore && typeof(quiz[counter][0]) === 'object'" 
+            :task="quiz[counter]" 
+            @nextTask="nextTask"
+            >
+        </vTask>
+        <template v-for="(item,index) in quiz" :key="index">
+            <vTaskSen 
+                v-if="index === counter && !showScore && typeof(quiz[counter]) === 'object' && quiz[counter].type === 'create_sentence'" 
+                :task="quiz[counter]" 
+                @nextTask="nextTask"
+                >
+            </vTaskSen>
+        </template>
+        <vScore 
+            v-if="showScore" 
+            :score="score" 
+            :maxScore="quiz.length"
+            >
+        </vScore>
+    </div>
 </template>
 
 <script>
 import vTask from './vTask.vue'
 import vScore from './vScore.vue'
+import vTaskSen from './vTaskSen.vue'
 
 export default {
     name: 'vQuizz',
     components: {
         vTask,
         vScore,
+        vTaskSen,
     },
     props: {
         quiz: Array
@@ -37,6 +57,7 @@ export default {
         }
     },
     created() {
+        console.log('type',typeof(this.quiz[this.counter]))
     }
 }
 
@@ -47,7 +68,6 @@ export default {
  .quizz {
     display: flex;
     border: 2px solid red;
-    width: 80%;
     min-width: 600px;
     margin: auto;
 
