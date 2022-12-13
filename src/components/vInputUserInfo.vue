@@ -349,11 +349,12 @@ export default {
     },
   emits: ['canGoStudy'],
   props: {
-    userInfo: Object,
+    //userInfo: Object,
     language: String
   },
   data() {
       return {
+        userInfo: localStorage.getItem('userInfo'),
         loader: false,
         dictionary,
         newInfo: this.userInfo,
@@ -368,26 +369,9 @@ export default {
       }
   },
   methods: {
-    getCookies(cname) {
-        //зччитування JWT ключа для перевірки валідації токена
-        let name = cname + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let ca = decodedCookie.split(";");
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == " ") {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-      },
-
     saveUserInfo() {
       let userNewInfo = {
-        email: this.userInfo.email,
+        email: this.newInfo.email,
         name: this.name,
         nickname: this.nickname,
         gender: this.gender,
@@ -396,8 +380,8 @@ export default {
         lang: this.lang,
         phone: this.phone,
         about_yourself: this.about_yourself,
-        id: this.userInfo.id,
-        icon: this.userInfo.icon,
+        id: this.newInfo.id,
+        icon: this.newInfo.icon,
         jwt: undefined
       }
       this.newInfo = userNewInfo
@@ -405,8 +389,7 @@ export default {
     },
     async updateUserInfo() {
       this.loader = true
-      this.newInfo.jwt = this.getCookies('jwt')
-      console.log(JSON.stringify( this.newInfo))
+      this.newInfo.jwt = localStorage.getItem('jwt')
       const url = 'http://ukrgeserver/api/update_user.php'
       const json = JSON.stringify(this.newInfo)
       
@@ -421,27 +404,21 @@ export default {
             body: json
           });
           let result = await response.json()
-          console.log(result.userInfo.nickname)
           this.$emit('canGoStudy', result.userInfo.nickname)
           const person = JSON.stringify(result.userInfo)
-          this.setCookies('userInfo', person, 1)
+          localStorage.setItem('userInfo', person)
           alert('Success updated')
       } catch (error) {
           console.log(error)
       } finally {
         this.loader = false
-      }
-            
-      },
-    setCookies(cname, cvalue, exdays) {
-            const d = new Date();
-            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-            const expires = "expires=" + d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-            this.isUserLoggined = cvalue
+      }   
       },
   },
   mounted() {
+  },
+  beforeCreate() {
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
   }
         
   

@@ -57,7 +57,7 @@ export default {
         }
     },
     created() {
-        console.log('type',typeof(this.quiz[this.counter]))
+        //console.log('type',typeof(this.quiz[this.counter]))
     }
 }
 

@@ -113,7 +113,6 @@ export default {
         
     },
     created() {
-        console.log('Всередині Таски')
     }
 }
 

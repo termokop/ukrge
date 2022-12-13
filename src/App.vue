@@ -37,7 +37,7 @@ export default {
   },
   data() {
         return {
-            isUserLoggined: true,
+            isUserLoggined: localStorage.getItem('jwt'),
             language: 'ua',
             loader: false
                        
@@ -50,48 +50,26 @@ export default {
       },
       login(result) {
         //метод щоб залогіниться
-        this.setCookies('jwt', result.jwt, 1)
+        localStorage.setItem('jwt', result.jwt)
         let res_str = JSON.stringify( result.userInfo)
-        this.setCookies('userInfo',res_str,1)
-      },
-      setCookies(cname, cvalue, exdays) {
-        //збереження нового JWT ключа в куках
-            const d = new Date();
-            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-            const expires = "expires=" + d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-            this.isUserLoggined = cvalue
+        localStorage.setItem('userInfo',res_str)
+        this.isUserLoggined = true
       },
       logout() {
         // метод щоб розлогіниться
-        this.setCookies('jwt', '', 1)
-        this.setCookies('userInfo', null, 0)
+        localStorage.removeItem('jwt')
+        localStorage.removeItem('userInfo')
+        this.isUserLoggined = false
       },
-      getCookies(cname) {
-        //зччитування JWT ключа для перевірки валідації токена
-        let name = cname + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let ca = decodedCookie.split(";");
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == " ") {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-      }
     },
     created() {
       //перевірка на наявність токена в куках #245e06
       // якщо токена там немає, то показувати головну сторінку
-      this.isUserLoggined = this.getCookies('jwt')
+      this.isUserLoggined = localStorage.jwt
 
       //якщо юзер авторизований, то показувати мову інтерфейсу залежно від обраного курсу
       // якщо курс ще не обрано -- показувати укр мову
-      let user = this.getCookies('userInfo')/// 
+      let user = localStorage.getItem('userInfo')/// 
       if (user) {
         this.language = JSON.parse(user)?.lang
       } else this.language = 'ua'

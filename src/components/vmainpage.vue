@@ -9,7 +9,6 @@
       
       <!--анкета користувача, яка автоматично з'являється при першому вході-->
       <vInputUserInfo  
-        :userInfo="userInfo"
         v-if="showEdit" 
         @canGoStudy="canStudyEmit"
         :language="language"
@@ -53,30 +52,13 @@ export default {
         canStudyEmit(nickname) {
             this.canStudy = !nickname
         },
-        getCookies(cname) {
-        //зччитування JWT ключа для перевірки валідації токена
-        let name = cname + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let ca = decodedCookie.split(";");
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == " ") {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-      },
       showEditeProfile() {
         this.showEdit = !this.showEdit
       },
 
     },
     created() {
-        this.userInfo = JSON.parse(this.getCookies('userInfo'))
-        //console.log("U r this person:", JSON.parse(this.getCookies('userInfo')))
+        this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
         this.showEdit = !this.userInfo?.nickname
         this.canStudy = !this.userInfo.nickname
     },

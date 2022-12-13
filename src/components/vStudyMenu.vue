@@ -57,7 +57,6 @@ export default {
             this.loader = true
             const url = 'http://ukrgeserver/api/get_task.php'
             const json = JSON.stringify({topic: key})
-            console.log(json)
             
             try {
                 let response = await fetch(url, {
@@ -75,7 +74,6 @@ export default {
                 }
                 this.quiz = result.task
                 this.openQuiz = true
-                console.log(this.quiz)
             } catch (error) {
                 alert(error)
                 console.log(error)

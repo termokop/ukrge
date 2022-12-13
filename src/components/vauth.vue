@@ -131,7 +131,6 @@
         // вибір форми логін
         chooseLoginIn() {
             this.isLogin = true
-            console.log('i cat tell u:' , dictionary)
         },
         chooseSingUp() {
             // вибір форми реєстрації

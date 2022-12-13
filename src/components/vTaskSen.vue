@@ -78,7 +78,7 @@
         },
         methods: {
             removeWord(index) {
-                console.log("remove")
+                //console.log("remove word")
                 this.answersArr[index] = '...'
                 this.showCheckBtn = false
             },
@@ -264,6 +264,7 @@
         }
         .corrAns {
             background-color: darkgreen;
+            border-color: darkgreen;
         }
 
         .word-item button {
