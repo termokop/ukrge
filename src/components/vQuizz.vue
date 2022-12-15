@@ -4,6 +4,7 @@
             v-if="!showScore && typeof(quiz[counter][0]) === 'object'" 
             :task="quiz[counter]" 
             @nextTask="nextTask"
+            :language="language"
             >
         </vTask>
         <template v-for="(item,index) in quiz" :key="index">
@@ -11,6 +12,8 @@
                 v-if="index === counter && !showScore && typeof(quiz[counter]) === 'object' && quiz[counter].type === 'create_sentence'" 
                 :task="quiz[counter]" 
                 @nextTask="nextTask"
+                
+            :language="language"
                 >
             </vTaskSen>
         </template>
@@ -18,6 +21,9 @@
             v-if="showScore" 
             :score="score" 
             :maxScore="quiz.length"
+            :language="language"
+            @repeat="this.$emit('repeat')"
+            @changeTopic="this.$emit('changeTopic')"
             >
         </vScore>
     </div>
@@ -36,7 +42,8 @@ export default {
         vTaskSen,
     },
     props: {
-        quiz: Array
+        quiz: Array,
+        language: String,
     },
     data() {
         return {
@@ -67,8 +74,7 @@ export default {
 <style scoped>
  .quizz {
     display: flex;
-    border: 2px solid red;
-    min-width: 600px;
+    min-width: 95vw;
     margin: auto;
 
  }

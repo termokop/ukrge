@@ -1,8 +1,8 @@
 <template>
-      <h1>{{dictionary.title[language]}}, {{this.userInfo.name}}!</h1>
-      <div class="buttons">
+      <!-- <h1>{{dictionary.title[language]}}</h1> -->
+      <div class="buttons" v-if="!openQuiz">
         <button  @click.prevent="showEditeProfile" v-if="!showEdit" >{{dictionary.editProfile[language]}}</button> <!--реалізація кнопки виходу-->
-        <button  @click.prevent="showEditeProfile" v-if="showEdit" :disabled="canStudy" >{{dictionary.study[language]}}</button> <!--реалізація кнопки виходу-->
+        <button  @click.prevent="showEditeProfile" v-if="showEdit" >{{dictionary.study[language]}}</button> <!--реалізація кнопки виходу ------:disabled="canStudy"-->
         <button  @click.prevent="this.$emit('logout')">{{dictionary.logout[language]}}</button> <!--реалізація кнопки виходу-->
         
     </div>
@@ -16,8 +16,10 @@
     </vInputUserInfo> 
 
     <studyMenu
+    @openQuiz="openQuizFn"
         :language="language"
-        v-if="!showEdit">
+        v-if="!showEdit"
+        >
     </studyMenu>
 
 
@@ -38,17 +40,21 @@ export default {
     props: {
         language: String
     },
-    emits: ['logout'],
+    emits: ['logout','openQuiz'],
     data() {
         return {
             dictionary,
             userInfo: undefined,
             showEdit: !this.userInfo?.nickname,
-            canStudy: undefined
+            canStudy: undefined,
+            openQuiz: false,
         }
         
     },
     methods: {
+        openQuizFn(bool) {
+            this.openQuiz = bool
+        },
         canStudyEmit(nickname) {
             this.canStudy = !nickname
         },
@@ -75,18 +81,27 @@ h1 {
     color: #fff;
     width: fit-content;
     margin: auto;
+    font-size: 16px;
 }
 button {
-    width: 250px;
-    height: 50px;
+    width: fit-content;
+    height: fit-content;
     margin: 10px;
-    font-size: 1.2rem;
-    border-radius: 10px;
+    font-size: 16px;
+    border-radius: 25px;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    text-decoration: overline 1px  #fff;
+    text-decoration-line: underline;
 }
 
 .buttons {
     width: fit-content;
     margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 </style>

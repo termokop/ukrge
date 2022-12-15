@@ -1,20 +1,15 @@
 <template>
-  <vHeader 
-    :language="language" 
-    @change-lang="updateLang" 
-    ></vHeader>
   
-  <vAuth v-if="!isUserLoggined" :language="language"  @user-loginned-success="login"></vAuth>
-  
+    <vHeader :language="language" @change-lang="updateLang"></vHeader>
+    
+    <vAuth v-if="!isUserLoggined" :language="language"  @user-loginned-success="login"></vAuth>
 
-  <vMainPage v-if="isUserLoggined" @logout="logout" :language="language"></vMainPage>
+    <vMainPage v-if="isUserLoggined" @logout="logout" :language="language"></vMainPage>
 
-  
-  <vFooter :language="language"></vFooter>
+    <vFooter :language="language"></vFooter>
 
-  <vLoader :loader="loader"></vLoader>
-  
-
+    <vLoader :loader="loader"></vLoader>
+    
 </template>
 
 <script>
@@ -86,14 +81,21 @@ export default {
 </script>
 
 <style>
+
+ /* *, *:after, *:before {
+    /* outline: solid 1px red; */
+    /* transition: .2s ease-in-out; */
+/* }   */
+
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   
 }
 body {
   background: #1d1d1d;
-  min-width: 575px;
   position: relative;
+  
 }
 
 

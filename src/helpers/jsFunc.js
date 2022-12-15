@@ -38,7 +38,7 @@ let func = {
                 <tr class="ge">
                     ${strForTableGE}
                 </tr>
-                <tr class="ua"  style="color:gray;font-size:small;">
+                <tr class="ua"  style="color:gray; font-size:12px">
                     ${strForTableUA}
                 </tr>
             </table>

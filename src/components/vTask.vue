@@ -1,7 +1,7 @@
 <template>
 <div class="task" v-if="task[0].type === 'words'">
     <div class="quetion">
-        <p>Знайди відповідності</p>
+        <p>{{dictionary.task[language]}}</p>
     </div>
     <div class="variants">
         <p><vPlayAudio v-if="false"></vPlayAudio></p>
@@ -37,7 +37,7 @@
             :disabled="answered.length !== 4"
             :class="{visible: answered.length === 4}"
             >
-            This is CHECK-button
+            {{dictionary.button[language]}}
         </button>
     </div>
 </div>
@@ -46,6 +46,7 @@
 <script>
 import vPlayAudio from './vPlayAudio.vue';
 import func from '@/helpers/jsFunc'
+import dictionary from './dictionary/task_words';
 export default {
     name: 'vTask',
     components: {
@@ -55,7 +56,8 @@ export default {
         task: {
             type: Array,
             required: true
-        }
+        },
+        language: String,
     },
     data() {
         return {
@@ -66,6 +68,7 @@ export default {
             wrongAnsForAnimatGe: '',
             wrongAnsForAnimatUa: '',
             func,
+            dictionary,
         }
     },
     methods: {
@@ -115,14 +118,19 @@ export default {
     created() {
     }
 }
-
+ // i need it 
+    // cursor: pointer;
 </script>
 
 <style scoped>
+    *{
+        
+        font-size: 16px;
+    }
+
     .task {
         display: block;
         width: 100%;
-        border: 2px solid blue;
         margin: auto;
         color: #fff;
     }
@@ -131,7 +139,7 @@ export default {
         padding: 0;
         margin: auto;
         width: fit-content;
-        font-size: x-large;
+        font-size: 1em;
     }
 
     .ansButton {
@@ -147,7 +155,7 @@ export default {
         background-color: green;
         padding: 20px;
         color: rgb(0, 0, 0);
-        font-size: large;
+        font-size: 1em;
         font-weight: bold;
     }
     @keyframes ansbutton {
@@ -219,7 +227,6 @@ export default {
     .word-item p {
         margin: auto;
         width: 90%;
-        font-size: 15px;
     }
 
     .choosed {
@@ -237,7 +244,17 @@ export default {
         width: fit-content;
         margin: auto;
     }
-
+    @media screen and (max-width: 700px) {
+        .word-item {
+        width: 95%;
+    }
+    *{
+        font-size: 2.5vw;
+    }
+    .ua  {
+            font-size: 1.5vw;
+        }
+    }
 
 
 </style>

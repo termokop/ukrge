@@ -1,63 +1,63 @@
 <template>
   <vLoader :loader="loader"></vLoader>
-    <h2>{{dictionary.title[language]}}</h2>
-    <div class="form">
-      <form >
-      <table>
-        <tr>
-          <td>
-            <label for="name">{{dictionary.name[language]}}:*</label>
-          </td>
-          <td>
-            <input 
-              type="text" 
-              id="name" 
-              placeholder="Piter Parker"
-              maxlength="20" 
-              required minlength="4"
-              v-model="name" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="nickname">{{dictionary.nickname[language]}}:*</label>
-          </td>
-          <td>
-            <input 
-              type="text" 
-              id="nickname" 
-              placeholder="Spiderman" 
-              maxlength="15" 
-              required
-              v-model="nickname">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label>{{dictionary.gender[language]}}*</label>
-          </td>
-          <td class="radio">
-            <input  type="radio" name="gender" value="M" id="m" v-model="gender">
-            <label  for="m">{{dictionary.genderM[language]}}</label>
-            <br>
-            <input  type="radio" name="gender" value="W" id="w" v-model="gender">
-            <label  for="w">{{dictionary.genderW[language]}}</label>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="birth">{{dictionary.birth[language]}}:*</label>
-          </td>
-          <td>
-            <input type="date" id="birth" v-model="birth">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="country">{{dictionary.country[language]}}:*</label>
-          </td>
-          <td>
-            <select id="country" required v-model="country">
+  <h2>{{dictionary.title[language]}}</h2>
+  <div class="form">
+    <form >
+    <table>
+      <tr>
+        <td>
+          <label for="name">{{dictionary.name[language]}}:*</label>
+        </td>
+        <td>
+          <input 
+            type="text" 
+            id="name" 
+            placeholder="Piter Parker"
+            maxlength="20" 
+            required minlength="4"
+            v-model="name" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="nickname">{{dictionary.nickname[language]}}:*</label>
+        </td>
+        <td>
+          <input 
+            type="text" 
+            id="nickname" 
+            placeholder="Spiderman" 
+            maxlength="15" 
+            required
+            v-model="nickname">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>{{dictionary.gender[language]}}*</label>
+        </td>
+        <td class="radio">
+          <input  type="radio" name="gender" value="M" id="m" v-model="gender">
+          <label  for="m">{{dictionary.genderM[language]}}</label>
+          <br>
+          <input  type="radio" name="gender" value="W" id="w" v-model="gender">
+          <label  for="w">{{dictionary.genderW[language]}}</label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="birth">{{dictionary.birth[language]}}:*</label>
+        </td>
+        <td>
+          <input type="date" id="birth" v-model="birth">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="country">{{dictionary.country[language]}}:*</label>
+        </td>
+        <td>
+          <select id="country" required v-model="country">
         <option value="  " selected>Select a country</option>
         <option value="--">Not Specified</option>
         <option value="UA">Ukraine</option>
@@ -390,9 +390,9 @@ export default {
     async updateUserInfo() {
       this.loader = true
       this.newInfo.jwt = localStorage.getItem('jwt')
-      const url = 'http://ukrgeserver/api/update_user.php'
+      const url = 'http://www.ukrge.site/api/update_user.php'
       const json = JSON.stringify(this.newInfo)
-      
+      console.log(json)
       try {
           let response = await fetch(url, {
             method: 'POST',
@@ -427,13 +427,17 @@ export default {
 
 <style scoped>
 
+* {
+  font-size: 16px;
+}
+
 h2 {
   display: block;
   text-shadow: 1px 1px 2px rgb(159, 159, 159), 0 0 1em rgb(0, 0, 0), 0 0 0.5em rgb(0, 0, 0);
   color: #fff;
   width: fit-content;
   margin: auto;
-  margin-bottom: 20px0;
+  margin-bottom: 20px;
 }
 
 
@@ -441,10 +445,8 @@ h2 {
   width: fit-content;
   margin: auto;
   align-items: center;
-  font-size: larger;
   color: #FFF;
-  background: #2d2d2d;
-  border: 5px solid rgb(13, 154, 55);
+  background: transparent;
   border-radius: 10px;
 }
 
@@ -453,28 +455,24 @@ table {
 }
 
 input, textarea, select {
-  border: 0px solid red;
   width: 100%;
-  font-size: large;
-  background: #1d1d1d;
-  color: #fff;
+  background: #ddd;
+  color: #000;
   box-shadow: none;
   border-radius: 10px;
-  border: 2px solid black;
 }
 
 td{
   align-self: flex-end;
   margin: 10px;
-  padding: 10px;
+  padding: 4px;
 }
 
 .button {
   display: block;
   margin: auto;
-  color: #fff;
+  color: #000;
   padding: 10px;
-  font-size: larger;
   width: 50%;
 }
 
@@ -485,7 +483,6 @@ textarea {
 label {
   display: block;
   text-align: right;
-  /*border: 1px solid red;*/
   margin-right: 0px;
 
 }
@@ -493,11 +490,7 @@ label {
 .radio {
   display: flex;
 }
-input[type="radio"] {
-  border: 4px solid red;
-  opacity: 10%;
-  position: relative;
-}
+
 
 .radio label,
 .radio input {

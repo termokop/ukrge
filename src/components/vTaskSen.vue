@@ -1,7 +1,7 @@
 <template>
     <div class="task" v-if="task.type === 'create_sentence'">
         <div class="quetion">
-            <p>Заповни пробіли в перекладі речення:</p>
+            <p>{{dictionary.task[language]}}</p>
         </div>
         <div class="question ">
             <p class="tooltip">
@@ -43,7 +43,7 @@
                 :disabled="!showCheckBtn"
                 :class="{visible:showCheckBtn}"
                 >
-                {{ansBtnText}}
+                {{dictionary.button[language]}}
             </button>
         </div>
     </div>
@@ -51,6 +51,7 @@
     
     <script>
     import func from '@/helpers/jsFunc'
+    import dictionary from './dictionary/task_create_sentence'
     export default {
         name: 'vTaskSen',
         components: {
@@ -59,11 +60,12 @@
             task: {
                 type: Object,
                 required: true
-            }
+            },
+            language: String,
         },
         data() {
             return {
-                ansBtnText: 'Перевірити',
+                dictionary,
                 variants: [...this.task.variants_fake.split(','), ...this.task.variants_real.split(',')],
                 sentence: [],
                 answersArr: [],
@@ -151,15 +153,19 @@
     </script>
 
     <style scoped>
+
+    *{
+        font-size: 16px;
+    }
         .task {
             display: block;
             width: 100%;
-            border: 2px solid blue;
             margin: auto;
             color: #fff;
         }
         .quetion {
-            
+            margin: auto;
+            width: fit-content;
             padding: 0;
 
         }
@@ -168,7 +174,6 @@
             padding: 0;
             margin: auto;
             width: fit-content;
-            font-size: x-large;
         }
         .question span {
             display: flex;
@@ -178,14 +183,14 @@
         .answer {
             width: fit-content;
             margin: auto;
-            font-size: 40px;
-            height: 200px;
+            height: 75px;
+            cursor: default;
         }
     
         .ansButton {
             width: 50%;
             margin: auto;
-            margin-top: 5%;
+            margin-top: 10px;
             margin-bottom: 10px;
         }
         .ansButton button {
@@ -195,7 +200,6 @@
             background-color: green;
             padding: 20px;
             color: rgb(0, 0, 0);
-            font-size: large;
             font-weight: bold;
             border: none;
         }
@@ -221,7 +225,7 @@
     
         
         .variants {
-            width: 75%;
+            width: 90vw;
             padding: 0;
             margin: auto;
             display: flex;
@@ -249,6 +253,7 @@
         .word-item {
             display: flex;
             width: max-content;
+            align-content: center;
             margin: 5px;
         }
         .placehold {
@@ -273,8 +278,7 @@
             border: 3px solid #3d3d3d;
             border-radius: 15px;
             padding: 10px;
-            font-size: 20px;
-            height: 70px;
+            height: 60px;
             
         }
         .word-item button[disabled] {
@@ -323,6 +327,16 @@
             border-style: solid;
             border-color: transparent transparent black transparent;
         }
+
+        @media screen and (max-width: 700) {
+            *{
+                font-size: 2.5vw;
+            }
+            .ua  {
+                font-size: 2vw;
+            }
+        }
+
         
     
     

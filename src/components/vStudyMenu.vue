@@ -1,6 +1,13 @@
 <template>
     <vLoader :loader="loader"></vLoader>
-    <vQuizz v-if="openQuiz" :quiz="quiz"></vQuizz>
+    <vQuizz 
+        v-if="openQuiz" 
+        :quiz="quiz" 
+        :language="language"
+        @repeat="repeatQuiz"
+        @changeTopic="openQuizFn"
+        >
+    </vQuizz>
     <div class="studyMenu" v-if="!openQuiz">
         <button 
             class="element" 
@@ -22,7 +29,7 @@
 </template>
 
 <script>
-import dictionary from './dictionary/studyMenu.js';
+import dictionary from './dictionary/task_words.js';
 import vQuizz from './vQuizz.vue';
 import vLoader from './vLoader.vue';
 
@@ -36,6 +43,7 @@ export default {
         language: String,
 
     },
+    emits: ['openQuiz'],
     data () {
         return {
             dictionary,
@@ -43,19 +51,29 @@ export default {
             loader: false,
             quiz: null,
             openQuiz: false,
+            lastTopic: ''
         }
     },
     methods: {
+        openQuizFn() {
+            this.openQuiz = false
+            this.$emit('openQuiz', this.openQuiz)
+        },
+        repeatQuiz() {
+            this.openQuiz = false
+            this.startQuizz(this.lastTopic)
+        },
         getTopics() {
-             fetch('http://ukrgeserver/api/get_task_list.php')
+             fetch('http://www.ukrge.site/api/get_task_list.php')
             .then((response) => response.json())
             .then((data) => {
                 localStorage.topics = JSON.stringify(data.task)
             });
         },
         async startQuizz(key) {
+            this.lastTopic = key
             this.loader = true
-            const url = 'http://ukrgeserver/api/get_task.php'
+            const url = 'http://www.ukrge.site/api/get_task.php'
             const json = JSON.stringify({topic: key})
             
             try {
@@ -74,6 +92,7 @@ export default {
                 }
                 this.quiz = result.task
                 this.openQuiz = true
+                this.$emit('openQuiz',this.openQuiz)
             } catch (error) {
                 alert(error)
                 console.log(error)
@@ -105,21 +124,21 @@ export default {
 
     .studyMenu {
         display: flex;
-        width: 70%;
+        width: 70vw;
         margin: auto;
         flex-wrap: wrap;
-        justify-content: space-around;
-        background-color: #2d2d2d;
-        border-radius: 10px;
+        justify-content: center;
+        background-color: transparent;
         color: #fff;
     }
 
     .element {
         position: relative;
         width: 300px;
-        background: #1d1d1d;
-        margin: 5px;
-        border: 3px solid #fff;
+        background: darkblue;
+        margin: 5px 5px;
+        border: 2px solid #2d2d2d;
+        border-width: 1px 3px 5px 3px;
         padding: 5px;
         border-radius: 10px;
         color: #fff;
@@ -127,6 +146,9 @@ export default {
         overflow:hidden;
         scrollbar-color: red;
         height: 150px;
+    }
+    .element:hover{
+        border-width: 3px 3px 3px 3px;
     }
 
     .title {
@@ -145,11 +167,30 @@ export default {
         font-size: x-small;
         border-radius: 50%;
         background-color: green;
-        
+        display: none;
     }
 
     button[disabled] {
         opacity: 50%;
+        background-color: gray;
+    }
+    @media screen and (max-width: 1000px) {
+        .studyMenu {
+        width: 95vw;
+    }
+    .element {
+        width: 250px;
+    }
+}
+
+    @media screen and (max-width: 500px) {
+        .studyMenu {
+        width: 95vw;
+    }
+    .element {
+        width: 95vh;
+
+    }
     }
 
 

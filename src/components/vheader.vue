@@ -26,32 +26,35 @@ export default {
         }
     },
     methods: {
-        addToCart() {
-            this.$emit('add-to-cart', this.variants[this.selectedVariant].id)
-        },
         updateLang(index) {
+
             this.$emit('change-lang', index)
+            ///localStorage.lang = index// for change language in localStorage
         }
+    },
+    created() {
+        //if(!localStorage.lang) localStorage.lang = 'ua' // for change language in localStorage
     }
  }
  </script>
 
  <style scoped>
  .header {
-  overflow: hidden;
+  margin: 0;
   padding: 0;
   display: flex;
   justify-content: space-between;
   color: #ffffff;
-  font-size: 21px;
+  font-size: 20px;
+  height: 10vh;
+  min-height: 80px;
   
 }
 .header a {
     float: left;
     color: black;
     text-align: center;
-    font-size: 18px;
-    height: max-content;
+    height: fit-content;
     
   }
 
@@ -68,15 +71,22 @@ img {
 p {
     text-shadow: 1px 1px 2px rgb(159, 159, 159), 0 0 1em rgb(0, 0, 0), 0 0 0.5em rgb(0, 0, 0);
 }
-
-@media screen and (max-width: 500px) {
-  .header a {
-    float: none;
-    display: block;
-    text-align: left;
+ @media screen and (max-width: 700px) {
+  .header p {
+    font-size: 12px;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    align-content: stretch;
     
   }
-
+} 
+@media screen and (max-width: 340px) {
+    .header p {
+        display: none;
+    }
 }
+
+
 
 </style>
