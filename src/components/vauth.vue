@@ -162,7 +162,7 @@
                 //alert('Success')
                 this.$emit('user-loginned-success', result)
             } catch (error) {
-                //alert("Не вдалося ввійти")
+                alert("Не вдалося ввійти. Перевірте правильність введених даних та спробуйте ще раз")
             } finally {
                 this.loader = false
             }
@@ -186,14 +186,14 @@
                     },
                     body: JSON.stringify(data)
                 });
-                let result = await response.json()
+                await response.json() //let result = 
                 //очищиємо поля для введення даних
                 this.inputLogin = ''
                 this.inputPassword = ''
                 this.inputRepeatPassword = ''
                 this.isLogin = true
 
-                alert(result.message)
+                alert("Користувача успішно створено")
             } catch (error) {
                 console.log(error)
                 alert('Не вдалося створити користувача')

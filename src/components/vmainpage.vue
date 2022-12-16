@@ -45,7 +45,7 @@ export default {
         return {
             dictionary,
             userInfo: undefined,
-            showEdit: !this.userInfo?.nickname,
+            showEdit: false,//!this.userInfo?.nickname,
             canStudy: undefined,
             openQuiz: false,
         }
@@ -65,8 +65,8 @@ export default {
     },
     created() {
         this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
-        this.showEdit = !this.userInfo?.nickname
-        this.canStudy = !this.userInfo.nickname
+        //this.showEdit = !this.userInfo?.nickname
+        //this.canStudy = !this.userInfo.nickname
     },
     computed: {
     }

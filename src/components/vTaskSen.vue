@@ -232,24 +232,6 @@
             flex-wrap: wrap;
             justify-content: center;
         }
-
-    
-        /* @keyframes correct {
-            from {background-color: green;}
-            to {background-color: #3d3d3d;}
-    }
-        @keyframes wrong {
-            from {background-color: red;}
-            to {background-color: #1d1d1d;}
-    }
-    
-        .variants button[disabled] {
-            background-color: #3d3d3d;
-            color: #000;
-            animation-name: correct;
-            animation-duration: 2s;
-        } */
-    
         .word-item {
             display: flex;
             width: max-content;

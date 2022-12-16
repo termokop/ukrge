@@ -18,9 +18,9 @@
 
             >
             <p class="counter">2/5</p>
-            <p class="title">{{topic.name}}</p>
+            <p class="title">{{(JSON.parse(topic.name))[language]}}</p>
             <hr>
-            <p class="explanation">{{topic.description}}</p>
+            <p class="explanation">{{(JSON.parse(topic.description))[language]}}</p>
         </button>
         
 
@@ -68,6 +68,7 @@ export default {
             .then((response) => response.json())
             .then((data) => {
                 localStorage.topics = JSON.stringify(data.task)
+                console.log(data)
             });
         },
         async startQuizz(key) {

@@ -5,8 +5,9 @@
     <form >
     <table>
       <tr>
-        <td>
+        <td  class="tooltip">
           <label for="name">{{dictionary.name[language]}}:*</label>
+          <span class="tooltiptext">{{dictionary.nameTip[language]}}</span>
         </td>
         <td>
           <input 
@@ -19,8 +20,9 @@
         </td>
       </tr>
       <tr>
-        <td>
+        <td class="tooltip">
           <label for="nickname">{{dictionary.nickname[language]}}:*</label>
+          <span class="tooltiptext">{{dictionary.nicknameTip[language]}}</span>
         </td>
         <td>
           <input 
@@ -33,8 +35,9 @@
         </td>
       </tr>
       <tr>
-        <td>
+        <td class="tooltip">
           <label>{{dictionary.gender[language]}}*</label>
+          <span class="tooltiptext">{{dictionary.statisticTip[language]}}</span>
         </td>
         <td class="radio">
           <input  type="radio" name="gender" value="M" id="m" v-model="gender">
@@ -45,16 +48,18 @@
         </td>
       </tr>
       <tr>
-        <td>
+        <td class="tooltip">
           <label for="birth">{{dictionary.birth[language]}}:*</label>
+          <span class="tooltiptext">{{dictionary.statisticTip[language]}}</span>
         </td>
         <td>
           <input type="date" id="birth" v-model="birth">
         </td>
       </tr>
       <tr>
-        <td>
+        <td class="tooltip">
           <label for="country">{{dictionary.country[language]}}:*</label>
+          <span class="tooltiptext">{{dictionary.statisticTip[language]}}</span>
         </td>
         <td>
           <select id="country" required v-model="country">
@@ -305,8 +310,9 @@
           </td>
         </tr>
         <tr>
-          <td>
+          <td class="tooltip">
             <label for="course">{{dictionary.course[language]}}*:</label>
+            <span class="tooltiptext">{{dictionary.courseTip[language]}}</span>
           </td>
           <td>
             <select id="course" required v-model="lang">
@@ -501,5 +507,34 @@ label {
   align-content: center;
 
 }
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: fit-content;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    opacity: 80%;
+    position: absolute;
+    z-index: 1;
+    font-size: 12px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%; 
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}
+
 
 </style>
