@@ -4,12 +4,11 @@
     
     <vAuth v-if="!isUserLoggined" :language="language"  @user-loginned-success="login"></vAuth>
 
-    <vMainPage v-if="isUserLoggined" @logout="logout" :language="language"></vMainPage>
+    <vMainPage v-if="isUserLoggined" @logout="logout" :language="language" @hideFooter="showFooterFn" @scoreCreated="showFooter = true"></vMainPage>
 
-    <vFooter :language="language"></vFooter>
+    <vFooter v-if="showFooter" :language="language"></vFooter>
 
     <vLoader :loader="loader"></vLoader>
-    
 </template>
 
 <script>
@@ -28,17 +27,20 @@ export default {
     vMainPage,
     vFooter,
     vLoader,
-
   },
   data() {
         return {
             isUserLoggined: localStorage.getItem('jwt'),
             language: 'ua',
-            loader: false
+            loader: false,
+            showFooter: true,
                        
         }
     },
     methods: {
+      showFooterFn(bool) {
+        this.showFooter = !bool
+      },
       //перемикач мови
       updateLang(index) {
         this.language = index
@@ -81,12 +83,6 @@ export default {
 </script>
 
 <style>
-
- /* *, *:after, *:before {
-    /* outline: solid 1px red; */
-    /* transition: .2s ease-in-out; */
-/* }   */
-
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

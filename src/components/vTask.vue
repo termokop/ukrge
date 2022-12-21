@@ -15,7 +15,7 @@
                 :key="item.id" 
                 @click="chooseWordGe(item.id)"
                 >
-                <p><span v-html="func.translit(item.ge)"></span></p>
+                <p><span v-html="func.translit(item.ge,language)"></span></p>
             </button>
         </div>
         <div class="word-items">
@@ -28,7 +28,7 @@
                 :key="item.id" 
                 @click="chooseWordUa(item.id)"
                 >
-                <p><span v-html="func.translit(item.ua)"></span></p>
+                <p><span v-html="func.translit(item.ua,language)"></span></p>
             </button>
         </div>
     </div>
@@ -116,6 +116,9 @@ export default {
         
     },
     created() {
+        window.addEventListener('keydown', e=> {
+                if(e.key === 'Enter' && this.answered.length === 4) this.nextTask()
+            })
     }
 }
  // i need it 
@@ -126,27 +129,32 @@ export default {
     *{
         
         font-size: 16px;
+        cursor: default;
     }
 
     .task {
-        display: block;
+        display: flex;
+        align-content: space-between;
+        flex-wrap: wrap;
         width: 100%;
         margin: auto;
         color: #fff;
+        height: 75vh;
     }
     .quetion {
-        
+        width: 100%;
         padding: 0;
-        margin: auto;
-        width: fit-content;
         font-size: 1em;
+    }
+
+    .quetion p {
+        width: fit-content;
+        margin: auto;
     }
 
     .ansButton {
         width: 50%;
         margin: auto;
-        margin-top: 5%;
-        margin-bottom: 10px;
     }
     .ansButton button {
         border-radius: 10px;
@@ -175,7 +183,6 @@ export default {
     .visible {
         animation-name: ansbutton;
         animation-duration: 1s;
-        border: none;
     }
 
     
@@ -185,7 +192,6 @@ export default {
         margin: 0;
         display: flex;
         flex-wrap: wrap;
-        margin-bottom: 20px;
     }
 
     .word-items {
@@ -220,13 +226,19 @@ export default {
         border: 3px solid #3d3d3d;
         border-radius: 10px;
         margin: auto;
-        margin-top: 5%;
+        margin-top: 3%;
         height: 60px;
     }
 
     .word-item p {
         margin: auto;
         width: 90%;
+    }
+    .word-items :deep() table{
+            font-size: 14px;
+        }
+    .word-items :deep() table .ua{
+        font-size: 12px;
     }
 
     .choosed {
@@ -251,9 +263,13 @@ export default {
     *{
         font-size: 2.5vw;
     }
-    .ua  {
-            font-size: 1.5vw;
+    .word-items :deep() table {
+            font-size: 2.3vw;
         }
+    .word-items :deep() table .ua {
+        font-size: 1.8vw;
+    }
+
     }
 
 

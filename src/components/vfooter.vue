@@ -75,7 +75,7 @@ export default {
         justify-content: center;
         align-content: center;
         font-size: 13px;
-        background-color: #0000cc;
+        background-color: rgba(0, 0, 200, 0.4);
         border-radius: 5px;
         padding: 5px;
     }
@@ -86,5 +86,6 @@ export default {
     button {
         background-color: transparent;
         border: none;
+        color: #fff;
     }
 </style>

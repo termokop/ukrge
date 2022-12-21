@@ -19,6 +19,7 @@
     @openQuiz="openQuizFn"
         :language="language"
         v-if="!showEdit"
+        @scoreCreated="this.$emit('scoreCreated')"
         >
     </studyMenu>
 
@@ -54,6 +55,7 @@ export default {
     methods: {
         openQuizFn(bool) {
             this.openQuiz = bool
+            this.$emit('hideFooter', bool)
         },
         canStudyEmit(nickname) {
             this.canStudy = !nickname

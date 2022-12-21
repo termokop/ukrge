@@ -1,13 +1,16 @@
 <template>
       <div class="header">
-        <a href="#" class="logo left" @click="updateLang('ua')">
+        <a href="#" class="logo left" @click.prevent="updateLang('ua')">
             <img src="@/assets/ua.svg" />
 
         </a>
 
-        <p class="title">{{dictionary[language]}}</p>
+        <p class="title">
+            <span>&larr; українська</span>
+            <span> ქართული &rarr;</span>
+        </p>
 
-        <a href="#" class="logo right" @click="updateLang('ge')">
+        <a href="#" class="logo right" @click.prevent="updateLang('ge')">
             <img src="@/assets/ge.svg" />
         </a>
     </div> 
@@ -45,8 +48,8 @@ export default {
   display: flex;
   justify-content: space-between;
   color: #ffffff;
-  font-size: 20px;
-  height: 10vh;
+  font-size: 16px;
+  height: 15vh;
   min-height: 80px;
   
 }
@@ -71,18 +74,26 @@ img {
 p {
     text-shadow: 1px 1px 2px rgb(159, 159, 159), 0 0 1em rgb(0, 0, 0), 0 0 0.5em rgb(0, 0, 0);
 }
- @media screen and (max-width: 700px) {
-  .header p {
-    font-size: 12px;
-    width: fit-content;
-    height: fit-content;
+
+.title {
+    width: 100%;
     display: flex;
-    align-content: stretch;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.title span {
+    padding: 8px;
+}
+ @media screen and (max-width: 600px) {
+  .title {
+    font-size: 15px;
+    justify-content: center;
     
   }
 } 
-@media screen and (max-width: 340px) {
-    .header p {
+@media screen and (max-width: 350px) {
+    .title {
         display: none;
     }
 }

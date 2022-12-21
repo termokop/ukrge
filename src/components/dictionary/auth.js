@@ -4,8 +4,8 @@
     
     const dictionary =  {
       title: {
-        ua: "Мова - ключ до кращого розуміння один одного",
-        ge: "ენა არის ერთმანეთის უკეთ გაგების გასაღები"
+        ua: "Вивчай <a href='https://civil.ge/archives/185960' style='color:#aaa; cursor:pointer'><strike>грузинську</strike></a> картвельську безкоштовно",
+        ge: "ისწავლეთ უკრაინული უფასოდ"
       },
       logIn: {
         ua: "Вхід",

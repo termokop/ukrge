@@ -6,6 +6,7 @@
         :language="language"
         @repeat="repeatQuiz"
         @changeTopic="openQuizFn"
+        @scoreCreated="this.$emit('scoreCreated')"
         >
     </vQuizz>
     <div class="studyMenu" v-if="!openQuiz">
@@ -57,24 +58,23 @@ export default {
     methods: {
         openQuizFn() {
             this.openQuiz = false
-            this.$emit('openQuiz', this.openQuiz)
+            this.$emit('openQuiz', (this.openQuiz))
         },
         repeatQuiz() {
             this.openQuiz = false
             this.startQuizz(this.lastTopic)
         },
         getTopics() {
-             fetch('http://www.ukrge.site/api/get_task_list.php')
+             fetch('https://www.ukrge.site/api/get_task_list.php')
             .then((response) => response.json())
             .then((data) => {
                 localStorage.topics = JSON.stringify(data.task)
-                console.log(data)
             });
         },
         async startQuizz(key) {
             this.lastTopic = key
             this.loader = true
-            const url = 'http://www.ukrge.site/api/get_task.php'
+            const url = 'https://www.ukrge.site/api/get_task.php'
             const json = JSON.stringify({topic: key})
             
             try {
@@ -103,8 +103,6 @@ export default {
         }
     },
     created() {
-    },
-    mounted() {
         if(localStorage.topics) {
            this.topics = JSON.parse(localStorage.topics)
            this.getTopics()
@@ -112,11 +110,10 @@ export default {
             this.getTopics()
         }
     },
-    // watch: {
-    //     topics(newTopics) {
-    //         localStorage.topics = newTopics
-    //     }
-    // }
+    mounted() {
+
+    },
+
 }
 
 </script>
@@ -136,7 +133,7 @@ export default {
     .element {
         position: relative;
         width: 300px;
-        background: darkblue;
+        background: rgba(0, 0, 127, 0.7);
         margin: 5px 5px;
         border: 2px solid #2d2d2d;
         border-width: 1px 3px 5px 3px;

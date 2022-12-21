@@ -24,6 +24,7 @@
             :language="language"
             @repeat="this.$emit('repeat')"
             @changeTopic="this.$emit('changeTopic')"
+            @scoreCreated="this.$emit('scoreCreated')"
             >
         </vScore>
     </div>

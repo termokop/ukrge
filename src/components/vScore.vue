@@ -80,6 +80,9 @@ export default {
             this.$emit('changeTopic')
         }
     },
+    created() {
+        this.$emit('scoreCreated')
+    }
 
 }
 

@@ -27,7 +27,9 @@ export default {
         }
     },
     methods: {
-
+        copy(info) {
+            alert(info)
+        }
     }
 }
 

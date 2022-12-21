@@ -5,7 +5,7 @@
         </div>
         <div class="question ">
             <p class="tooltip">
-                <span  v-html="func.translit(task.question)"></span> 
+                <span  v-html="func.translit(task.question,language)"></span> 
                 <span class="tooltiptext">{{task.correct_answer}}</span>
             </p>
         </div>
@@ -31,11 +31,10 @@
                 >
                 <button 
                 :disabled="answersArr.includes(variant)"
-                ><span v-html="func.translit(variant)"></span></button>
+                ><span v-html="func.translit(variant,language)"></span></button>
             </div>
         </div>
-        <div 
-            
+        <div
             class="ansButton"
             @click="nextTask"
             >
@@ -156,42 +155,46 @@
 
     *{
         font-size: 16px;
+        
+        cursor: default;
     }
         .task {
-            display: block;
-            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: space-between;
             margin: auto;
             color: #fff;
+            height: 75vh;
         }
         .quetion {
-            margin: auto;
-            width: fit-content;
+            width: 100%;
             padding: 0;
-
+        }
+        .quetion p {
+            width: fit-content;
+            margin: auto;
         }
         .question {
-            display: flex;
-            padding: 0;
+            width: fit-content;
             margin: auto;
-            width: fit-content;
+            padding: 0;
         }
-        .question span {
+        .question p  span{
             display: flex;
-            width: fit-content;
         }
 
         .answer {
+            width: 100%;
+            cursor: default;
+        }
+        .answer p {
             width: fit-content;
             margin: auto;
-            height: 75px;
-            cursor: default;
         }
     
         .ansButton {
             width: 50%;
             margin: auto;
-            margin-top: 10px;
-            margin-bottom: 10px;
         }
         .ansButton button {
             border-radius: 30px;
@@ -200,7 +203,7 @@
             background-color: green;
             padding: 20px;
             color: rgb(0, 0, 0);
-            font-weight: bold;
+            /* font-weight: bold; */
             border: none;
         }
          @keyframes ansbutton {
@@ -225,7 +228,7 @@
     
         
         .variants {
-            width: 90vw;
+            width: 100%;
             padding: 0;
             margin: auto;
             display: flex;
@@ -268,12 +271,6 @@
             color: transparent;
 
         }
-    
-        /* .wrong {
-            animation-name: wrong;
-            animation-duration: 1s;
-            background-color: rgb(255, 0, 0);
-        } */
         .tooltip {
             position: relative;
             display: inline-block;
@@ -315,7 +312,7 @@
                 font-size: 2.5vw;
             }
             .ua  {
-                font-size: 2vw;
+                font-size: 1.8vw;
             }
         }
 

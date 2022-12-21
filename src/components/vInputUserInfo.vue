@@ -347,7 +347,8 @@
 
 <script>
 import dictionary from './dictionary/inputUserInfo';
-  import vLoader from "./vLoader.vue"
+import vLoader from "./vLoader.vue"
+import dictionaryModal from './dictionary/modals';
 export default {
   name: 'vInputUserInfo',
     components: {
@@ -360,6 +361,7 @@ export default {
   },
   data() {
       return {
+        dictionaryModal,
         userInfo: localStorage.getItem('userInfo'),
         loader: false,
         dictionary,
@@ -396,7 +398,7 @@ export default {
     async updateUserInfo() {
       this.loader = true
       this.newInfo.jwt = localStorage.getItem('jwt')
-      const url = 'http://www.ukrge.site/api/update_user.php'
+      const url = 'https://www.ukrge.site/api/update_user.php'
       const json = JSON.stringify(this.newInfo)
       console.log(json)
       try {
@@ -413,9 +415,9 @@ export default {
           this.$emit('canGoStudy', result.userInfo.nickname)
           const person = JSON.stringify(result.userInfo)
           localStorage.setItem('userInfo', person)
-          alert('Success updated')
+          alert(dictionaryModal.successUpdate[this.language])
       } catch (error) {
-          console.log(error)
+          console.log(dictionaryModal.failUpdate[this.language])
       } finally {
         this.loader = false
       }   

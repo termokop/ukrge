@@ -2,7 +2,7 @@
     
     <vLoader :loader="loader"></vLoader>
     <div class="forms-section">
-        <h1 class="section-title">{{ dictionary.title[language] }}</h1>
+        <h1 class="section-title"><span v-html="dictionary.title[language]"></span></h1>
         
             
         <div class="buttons">
@@ -107,6 +107,7 @@
   <script>
   import dictionary from "./dictionary/auth.js"
   import vLoader from "./vLoader.vue"
+  import dictionaryModal from "./dictionary/modals"
   export default {
     name: 'vAuth',
     components: {
@@ -118,6 +119,7 @@
     emits: ['user-loginned-success'],
     data() {
       return {
+        dictionaryModal,
         loader: false,
         dictionary,
         isLogin: true,
@@ -142,7 +144,7 @@
         },
         async login() { // що відбувається, коли користувач натискає кнопку ЛОГІН
             this.loader = true
-            const url = 'http://www.ukrge.site/api/login.php'
+            const url = 'https://www.ukrge.site/api/login.php'
             let data = {
                 email: this.inputLogin,
                 password: this.inputPassword
@@ -158,11 +160,15 @@
                     body: JSON.stringify(data)
                     });
                 let result = await response.json()
+                fetch('https://www.ukrge.site/api/get_task_list.php') // taking topic list
+                .then((response) => response.json())
+                .then((data_list) => {
+                    localStorage.topics = JSON.stringify(data_list.task)
+                    this.$emit('user-loginned-success', result)
+                });//----
 
-                //alert('Success')
-                this.$emit('user-loginned-success', result)
             } catch (error) {
-                alert("Не вдалося ввійти. Перевірте правильність введених даних та спробуйте ще раз")
+                alert(dictionaryModal.failAuth[this.language])
             } finally {
                 this.loader = false
             }
@@ -171,7 +177,7 @@
         },
         async signup() { // метод книпки реєстрації
             this.loader = true
-            const url = 'http://www.ukrge.site/api/create_user.php'
+            const url = 'https://www.ukrge.site/api/create_user.php'
             let data = {
                 email: this.inputLogin,
                 password: this.inputPassword
@@ -193,10 +199,10 @@
                 this.inputRepeatPassword = ''
                 this.isLogin = true
 
-                alert("Користувача успішно створено")
+                alert(dictionaryModal.successRegistr[this.language])
             } catch (error) {
                 console.log(error)
-                alert('Не вдалося створити користувача')
+                alert(dictionaryModal.failRegistr[this.language])
             } finally {
                 this.loader = false
             }
@@ -238,7 +244,8 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 95vw;
+    width: 100%;
+    
 }
     .section-title {
     font-size: 15px;
@@ -298,7 +305,7 @@
     input {
         height: 35px;
         align-self: flex-end;
-        width: 90%;
+        width: 100%;
     }
     .inputErrors {
         font-size: small;
@@ -309,10 +316,11 @@
 
   .btn-login, .btn-signup {
     position: relative;
-    width: 100%;
+    width: 90%;
     height: 50px;
     border-radius: 20px;
-    margin: 20px 0;
+    margin: 20px 15px;
+    padding: 15px;
     color: #fff;
     background-color: #000;
     border: 2px solid grey;
@@ -320,6 +328,13 @@
 
 .disabledButton {
     background: grey;
+ }
+
+ a:link, a:visited {
+    color: transparent;
+ }
+ a {
+    cursor: pointer;
  }
 
   </style>
