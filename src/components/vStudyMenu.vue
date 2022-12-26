@@ -14,21 +14,28 @@
         >
     </vQuizz>
 
+    <template v-if="!isLessonOpened && !openQuiz">
+
+    <h1>Курс картвельської мови</h1>
+
     <div class="studyMenu" v-if="!isLessonOpened">
         <button class="element"
-            v-for="n in 4"
+            v-for="n in 3"
             :key="n"
             @click.prevent="startLesson(n)">
             <p>Урок {{ n }}</p>
         </button>
     </div>
+</template>
 
-    <hr>
+ 
 
-    <!-- <h1>Перевір свої знання</h1> -->
+    <template v-if="!isLessonOpened && !openQuiz">
+        <hr>
 
-    <div class="studyMenu" v-if="false">
-    <!-- <div class="studyMenu" v-if="!openQuiz"> -->
+    <h1>Перевір свої знання</h1>
+
+    <div class="studyMenu" v-if="!openQuiz">
         <button 
             class="element" 
             v-for="topic in topics" 
@@ -43,6 +50,7 @@
             <p class="explanation">{{(JSON.parse(topic.description))[language]}}</p>
         </button>
     </div>
+</template>
 
 
 

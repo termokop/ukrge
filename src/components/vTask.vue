@@ -155,6 +155,7 @@ export default {
     .ansButton {
         width: 50%;
         margin: auto;
+        
     }
     .ansButton button {
         border-radius: 10px;
@@ -165,6 +166,7 @@ export default {
         color: rgb(0, 0, 0);
         font-size: 1em;
         font-weight: bold;
+        height: 100%;
     }
     @keyframes ansbutton {
         from {background-color: #3d3d3d;}

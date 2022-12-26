@@ -205,6 +205,7 @@
             color: rgb(0, 0, 0);
             /* font-weight: bold; */
             border: none;
+            height: 100%;
         }
          @keyframes ansbutton {
             from {background-color: #3d3d3d;}
