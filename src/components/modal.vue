@@ -1,5 +1,5 @@
 <template>
-    <div class="bg"></div>
+    <div class="bg" @click="$emit('closeModal')"></div>
     <div class="modal">
         <h1>{{objForModal?.title}}</h1>
         <div class='description'>

@@ -1,8 +1,8 @@
 <template>
-<div class="play" @click="play">
+<div v-if="!disabled" class="play"  @click="play">
     <img v-if="!isPlay" src="../assets/speaker-off.svg">
     <img v-if="isPlay" src="../assets/speaker-on.svg">
-    <audio ref="play" @ended="stopSound"  src=""></audio>
+    <audio ref="play" @ended="stopSound" @error="notFound"  :src="url"></audio>
 </div>
 </template>
 
@@ -15,7 +15,8 @@ export default {
     },
     data() {
         return {
-            isPlay: false
+            isPlay: false,
+            disabled: false,
             
         }
     },
@@ -24,10 +25,23 @@ export default {
             this.isPlay = true
             let player = this.$refs.play
             player.play()
+            console.log(this.url)
         },
         stopSound() {
             this.isPlay = false
+        },
+        notFound() {
+            this.disabled= true
+        },
+    },
+    computed: {
+        url() {
+            return 'https://www.ukrge.site/audio/' + this.audioUrl + '.mp3'
+
         }
+    },
+    mounted() {
+        console.log('mounted')
     }
 }
 

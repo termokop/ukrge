@@ -1,6 +1,7 @@
 <?php
 
 // Заголовки
+// Заголовки
 #header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 #header("Access-Control-Allow-Methods: POST");
@@ -8,7 +9,7 @@ header("Content-Type: application/json; charset=UTF-8");
 #header("Access-Control-Allow-Credentials: true");
 #header("Access-Control-Allow-Headers: *");
 
-function cors() {
+function cors() {//------------------------------------------------------------------------------
     
     // Allow from any origin
     if (isset($_SERVER['HTTP_ORIGIN'])) {
@@ -37,51 +38,35 @@ function cors() {
 }
 cors();
 
-// Подключение к БД
-// Файлы, необходимые для подключения к базе данных
-include_once "./Config/Database.php";
-include_once "./Objects/User.php";
-include_once "./Objects/UsersProgress.php";
+include_once "./Config/LessonDB.php";
+include_once "./Objects/Lesson_info.php";
 
-// Получаем соединение с базой данных
-$database = new Database();
+//з'єднуємося з базою даних
+$database = new LessonDB();
 $db = $database->getConnection();
+//----------------------------------------------------------------------------------
+//створюємо об'єкт Task_Words
+$lesson = new LessonInfo($db);
 
-// Создание объекта "User"
-$user = new User($db);
- 
-
-
-// Получаем данные
+//отримуємо дані
 $data = json_decode(file_get_contents("php://input"));
- 
-// Устанавливаем значения
-$user->email = $data->email;
-$user->password = $data->password;
 
-// Поверка на существование e-mail в БД
- $email_exists = $user->emailExists();
- 
+//встановлюємо значення
+if(($lesson->info = $lesson->getLessonTheorty($data->lesson)) && 
+    ($lesson->words = $lesson->getWords($data->lesson)) && 
+    ($lesson->letters = $lesson->getLetters($data->lesson)) &&
+    ($lesson->sentences = $lesson->getSentences($data->lesson))) {
 
 
-// Создание пользователя
-if (
-    !empty($user->email) &&
-     $email_exists == 0 &&
-    !empty($user->password) &&
-    $user->create()
-) {
-    // Устанавливаем код ответа
-    http_response_code(200);
-
-    //my code start
-    $userProgress = new UsersProgress($db);
-    $userProgress->email = $data->email;
-    $userProgress->create();
-
-    // my code finish
- 
-    // Покажем сообщение о том, что пользователь был создан
-    echo json_encode(array("message" => "Користувача успішно створено"));
-
-}
+    echo json_encode(
+        array(
+            "lesson" => $data->lesson,
+            "info" => $lesson->info,
+            "letters" => $lesson->letters,
+            "words" => $lesson->words,
+            "sentences" => $lesson->sentences,
+        )
+        );
+    } else {
+        echo "Сталася непередбачувана помилка";
+    }

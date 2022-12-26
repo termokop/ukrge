@@ -66,10 +66,10 @@ export default {
 
       //якщо юзер авторизований, то показувати мову інтерфейсу залежно від обраного курсу
       // якщо курс ще не обрано -- показувати укр мову
-      let user = localStorage.getItem('userInfo')/// 
-      if (user) {
-        this.language = JSON.parse(user)?.lang
-      } else this.language = 'ua'
+      // let user = localStorage.getItem('userInfo')/// 
+      // if (user) {
+      //   this.language = JSON.parse(user)?.lang
+      // } else this.language = 'ua'
 
     },
     computed: {
@@ -92,6 +92,21 @@ body {
   background: #1d1d1d;
   position: relative;
   
+}
+
+.green {
+  background-color: #0b6308;
+  color: white;
+}
+.red {
+  background-color: #8e0000;
+  color: #fff;
+}
+button {
+    width: 40%;
+    border-radius: 20px;
+    height: 40px;
+    border: none;
 }
 
 

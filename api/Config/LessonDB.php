@@ -1,11 +1,11 @@
 <?php
 
 // Используем для подключения к базе данных MySQL
-class Database
+class LessonDB
 {
     // Учётные данные базы данных
     private $host = "ukrge.mysql.tools";
-    private $db_name = "ukrge_db";
+    private $db_name = "ukrge_lessons";
     private $username = "ukrge_db";
     private $password = "Pr2zNJBp";
     public $conn;

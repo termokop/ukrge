@@ -87,5 +87,7 @@ export default {
         background-color: transparent;
         border: none;
         color: #fff;
+        height: fit-content;
+        width: fit-content;
     }
 </style>

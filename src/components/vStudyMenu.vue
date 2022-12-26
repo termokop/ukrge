@@ -1,5 +1,9 @@
 <template>
+
+
     <vLoader :loader="loader"></vLoader>
+
+
     <vQuizz 
         v-if="openQuiz" 
         :quiz="quiz" 
@@ -9,7 +13,22 @@
         @scoreCreated="this.$emit('scoreCreated')"
         >
     </vQuizz>
-    <div class="studyMenu" v-if="!openQuiz">
+
+    <div class="studyMenu" v-if="!isLessonOpened">
+        <button class="element"
+            v-for="n in 4"
+            :key="n"
+            @click.prevent="startLesson(n)">
+            <p>Урок {{ n }}</p>
+        </button>
+    </div>
+
+    <hr>
+
+    <!-- <h1>Перевір свої знання</h1> -->
+
+    <div class="studyMenu" v-if="false">
+    <!-- <div class="studyMenu" v-if="!openQuiz"> -->
         <button 
             class="element" 
             v-for="topic in topics" 
@@ -23,9 +42,20 @@
             <hr>
             <p class="explanation">{{(JSON.parse(topic.description))[language]}}</p>
         </button>
-        
-
     </div>
+
+
+
+
+
+    <vLesson 
+        v-if="isLessonOpened" 
+        :lessonObj="lessonObj"
+        @backToMenu="isLessonOpened = false"
+        ></vLesson>
+
+
+
 
 </template>
 
@@ -33,12 +63,14 @@
 import dictionary from './dictionary/task_words.js';
 import vQuizz from './vQuizz.vue';
 import vLoader from './vLoader.vue';
+import vLesson from './vLesson.vue'
 
 export default {
     name: 'studyMenu',
     components: {
         vQuizz,
         vLoader,
+        vLesson
     },
     props: {
         language: String,
@@ -52,7 +84,9 @@ export default {
             loader: false,
             quiz: null,
             openQuiz: false,
-            lastTopic: ''
+            lastTopic: '',
+            lessonObj: null,
+            isLessonOpened: false
         }
     },
     methods: {
@@ -100,6 +134,26 @@ export default {
             } finally {
                 this.loader = false
             }
+        },
+        async startLesson(lesson) {
+            this.loader = true
+            const url = 'https://www.ukrge.site/api/get_lesson.php'
+            const json = JSON.stringify({lesson: lesson})
+            
+            try {
+                let response = await fetch(url, {
+                    method: 'POST',
+                    body: json
+                })
+                let result = await response.json()
+                this.lessonObj = result;
+                this.isLessonOpened = true
+            } catch(error) {
+                //console.log(error)
+                alert('Поки що доступно тільки 2 уроки. Решта в розробці')
+            } finally {
+            this.loader = false
+            }
         }
     },
     created() {
@@ -119,6 +173,12 @@ export default {
 </script>
 
 <style scoped>
+
+h1 {
+    color: white;
+    width: fit-content;
+    margin: auto;
+}
 
     .studyMenu {
         display: flex;

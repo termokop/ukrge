@@ -160,13 +160,7 @@
                     body: JSON.stringify(data)
                     });
                 let result = await response.json()
-                fetch('https://www.ukrge.site/api/get_task_list.php') // taking topic list
-                .then((response) => response.json())
-                .then((data_list) => {
-                    localStorage.topics = JSON.stringify(data_list.task)
-                    this.$emit('user-loginned-success', result)
-                });//----
-
+                this.$emit('user-loginned-success', result)
             } catch (error) {
                 alert(dictionaryModal.failAuth[this.language])
             } finally {
@@ -335,6 +329,10 @@
  }
  a {
     cursor: pointer;
+ }
+ button{
+    width: 100%;
+    height: fit-content;
  }
 
   </style>
