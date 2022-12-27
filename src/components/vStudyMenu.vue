@@ -20,7 +20,7 @@
 
     <div class="studyMenu" v-if="!isLessonOpened">
         <button class="element"
-            v-for="n in 3"
+            v-for="n in 2"
             :key="n"
             @click.prevent="startLesson(n)">
             <p>Урок {{ n }}</p>
