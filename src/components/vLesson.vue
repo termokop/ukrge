@@ -115,6 +115,7 @@ export default {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
+        color: black;
     }
     .title, .gramar, .addictional, .intro, .buttons, .mistake {
         width: 100%;
