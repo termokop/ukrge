@@ -6,8 +6,7 @@
         </a>
 
         <p class="title">
-            <span>&larr; українська</span>
-            <span> ქართული &rarr;</span>
+            {{ dictionary[language] }}
         </p>
 
         <a href="#" class="logo right" @click.prevent="updateLang('ge')">
@@ -30,7 +29,7 @@ export default {
     },
     methods: {
         updateLang(index) {
-
+            if(index === 'ge') alert('საიტი ჯერ არ არის სრულად თარგმნილი ქართულად')
             this.$emit('change-lang', index)
             ///localStorage.lang = index// for change language in localStorage
         }
@@ -49,9 +48,8 @@ export default {
   justify-content: space-between;
   color: #ffffff;
   font-size: 16px;
-  height: 15vh;
+  height: 80px;
   min-height: 80px;
-  
 }
 .header a {
     float: left;
@@ -78,13 +76,10 @@ p {
 .title {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
-.title span {
-    padding: 8px;
-}
  @media screen and (max-width: 600px) {
   .title {
     font-size: 15px;

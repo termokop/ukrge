@@ -81,7 +81,6 @@ export default {
         }
     },
     created() {
-        this.$emit('scoreCreated')
     }
 
 }
@@ -102,6 +101,7 @@ export default {
         align-content: space-around;
         height: 70vh;
         color: #fff;
+        padding: 10px;
     }
     .score {
         display: block;

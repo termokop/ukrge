@@ -109,7 +109,7 @@ export default {
 
     .lesson{
         background-color: azure;
-        max-width: 900px;
+        max-width: 100%;
         margin: auto;
         padding: 10px;
         display: flex;

@@ -32,13 +32,23 @@
             </button>
         </div>
     </div>
-    <div class="ansButton" @click="nextTask">
+    <div class="ansButton">
+
         <button 
+            @click="nextTask"
             :disabled="answered.length !== 4"
             :class="{visible: answered.length === 4}"
             >
             {{dictionary.button[language]}}
         </button>
+        <div 
+            class="skip"
+            @click="skipTask">
+            <button>
+                Пропустити
+            </button>
+        </div>
+
     </div>
 </div>
 </template>
@@ -75,6 +85,10 @@ export default {
         nextTask() {
             this.$emit('nextTask', this.pointsForTheTask / 4)
             this.answered = []
+        },
+        skipTask() {
+            this.pointsForTheTask = 0
+            this.nextTask()
         },
         chooseWordGe(key) {
             this.choosedWordGe = key === this.choosedWordGe ? '' : key
@@ -139,7 +153,7 @@ export default {
         width: 100%;
         margin: auto;
         color: #fff;
-        height: 75vh;
+        height: 80vh;
     }
     .quetion {
         width: 100%;
@@ -252,11 +266,25 @@ export default {
         animation-duration: 1s;
         background-color: rgb(255, 0, 0);
     }
+    button {
+        width: 30%;
+        background-color: #fff;
+    }
 
     span {
         display: flex;
         width: fit-content;
         margin: auto;
+    }
+
+    .skip {
+        width: fit-content;
+        margin: auto;
+    }
+    .skip button {
+        
+        background-color: transparent;
+        color: white;
     }
     @media screen and (max-width: 700px) {
         .word-item {

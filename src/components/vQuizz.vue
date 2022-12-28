@@ -24,7 +24,6 @@
             :language="language"
             @repeat="this.$emit('repeat')"
             @changeTopic="this.$emit('changeTopic')"
-            @scoreCreated="this.$emit('scoreCreated')"
             >
         </vScore>
     </div>
@@ -75,7 +74,7 @@ export default {
 <style scoped>
  .quizz {
     display: flex;
-    min-width: 95vw;
+    min-width: 100%;
     margin: auto;
 
  }

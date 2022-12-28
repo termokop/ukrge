@@ -1,14 +1,16 @@
 <template>
-  
+  <div class="content">
     <vHeader :language="language" @change-lang="updateLang"></vHeader>
     
     <vAuth v-if="!isUserLoggined" :language="language"  @user-loginned-success="login"></vAuth>
 
-    <vMainPage v-if="isUserLoggined" @logout="logout" :language="language" @hideFooter="showFooterFn" @scoreCreated="showFooter = true"></vMainPage>
+    <vMainPage v-if="isUserLoggined" @logout="logout" :language="language" @hideFooter="showFooterFn"></vMainPage>
 
-    <vFooter v-if="showFooter" :language="language"></vFooter>
+    <vFooter v-if="false" :language="language"></vFooter>
 
     <vLoader :loader="loader"></vLoader>
+
+  </div>
 </template>
 
 <script>
@@ -33,14 +35,10 @@ export default {
             isUserLoggined: localStorage.getItem('jwt'),
             language: 'ua',
             loader: false,
-            showFooter: true,
                        
         }
     },
     methods: {
-      showFooterFn(bool) {
-        this.showFooter = !bool
-      },
       //перемикач мови
       updateLang(index) {
         this.language = index
@@ -83,6 +81,10 @@ export default {
 </script>
 
 <style>
+*::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    }
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -102,11 +104,21 @@ body {
   background-color: #8e0000;
   color: #fff;
 }
+.center {
+  width: fit-content;
+  margin: auto;
+}
 button {
     width: 40%;
     border-radius: 20px;
     height: 40px;
     border: none;
+}
+</style>
+
+<style scoped>
+.content {
+  height: 100vh;
 }
 
 

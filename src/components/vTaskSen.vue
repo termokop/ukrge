@@ -36,14 +36,22 @@
         </div>
         <div
             class="ansButton"
-            @click="nextTask"
             >
             <button
+            
+                @click="nextTask"
                 :disabled="!showCheckBtn"
                 :class="{visible:showCheckBtn}"
                 >
                 {{dictionary.button[language]}}
             </button>
+            <div 
+            class="skip"
+            @click="skipTask">
+            <button>
+                Пропустити
+            </button>
+        </div>
         </div>
     </div>
     </template>
@@ -113,7 +121,12 @@
                         this.wrongAns = false
                     }, 1000)
                 }
+            },        
+            skipTask() {
+                this.pointsForTheTask = 0
+                this.$emit('nextTask', this.pointsForTheTask)
             },
+
             checkBtn() {
                 for ( let value of this.indexes) {
                     if(this.answersArr[value] === '...') {
@@ -164,7 +177,7 @@
             align-content: space-between;
             margin: auto;
             color: #fff;
-            height: 75vh;
+            height: 85vh;
         }
         .quetion {
             width: 100%;
@@ -244,8 +257,8 @@
         }
         .placehold {
             background-color: #2d2d2d;
-            border: 3px solid #3d3d3d;
-            border-radius: 10px;
+            border: 1px solid #3d3d3d;
+            border-radius: 3px;
             padding: 0 5px;
             margin-left: 3px;
             /* height: 90px; */
@@ -261,10 +274,11 @@
         .word-item button {
             background-color: transparent;
             color: #fff;
-            border: 3px solid #3d3d3d;
-            border-radius: 15px;
+            border: 2px solid #3d3d3d;
+            border-radius: 10px;
             padding: 10px;
             height: 60px;
+            width: 100%;
             
         }
         .word-item button[disabled] {
@@ -306,6 +320,14 @@
             border-width: 5px;
             border-style: solid;
             border-color: transparent transparent black transparent;
+        }
+        .skip {
+            width: fit-content;
+            margin: auto;
+        }
+        .skip button {
+            background-color: transparent;
+            color: white;
         }
 
         @media screen and (max-width: 700) {

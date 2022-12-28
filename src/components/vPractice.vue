@@ -10,60 +10,28 @@
         :language="language"
         @repeat="repeatQuiz"
         @changeTopic="openQuizFn"
-        @scoreCreated="this.$emit('scoreCreated')"
         >
     </vQuizz>
 
-    <template v-if="!isLessonOpened && !openQuiz">
+    <div class="content"  v-if="!openQuiz">
+        <h1>Перевір свої знання</h1>
 
-    <h1>Курс картвельської мови</h1>
+        <div class="studyMenu">
+            <button 
+                class="element" 
+                v-for="topic in topics" 
+                :key="topic.short_name" 
+                :disabled="topic.ready === '0'"
+                @click="startQuizz(topic.short_name)"
 
-    <div class="studyMenu" v-if="!isLessonOpened">
-        <button class="element"
-            v-for="n in 2"
-            :key="n"
-            @click.prevent="startLesson(n)">
-            <p>Урок {{ n }}</p>
-        </button>
+                >
+                <p class="counter">2/5</p>
+                <p class="title">{{(JSON.parse(topic.name))[language]}}</p>
+                <hr>
+                <p class="explanation">{{(JSON.parse(topic.description))[language]}}</p>
+            </button>
+        </div>
     </div>
-</template>
-
- 
-
-    <template v-if="!isLessonOpened && !openQuiz">
-        <hr>
-
-    <h1>Перевір свої знання</h1>
-
-    <div class="studyMenu" v-if="!openQuiz">
-        <button 
-            class="element" 
-            v-for="topic in topics" 
-            :key="topic.short_name" 
-            :disabled="topic.ready === '0'"
-            @click="startQuizz(topic.short_name)"
-
-            >
-            <p class="counter">2/5</p>
-            <p class="title">{{(JSON.parse(topic.name))[language]}}</p>
-            <hr>
-            <p class="explanation">{{(JSON.parse(topic.description))[language]}}</p>
-        </button>
-    </div>
-</template>
-
-
-
-
-
-    <vLesson 
-        v-if="isLessonOpened" 
-        :lessonObj="lessonObj"
-        @backToMenu="isLessonOpened = false"
-        ></vLesson>
-
-
-
 
 </template>
 
@@ -71,14 +39,12 @@
 import dictionary from './dictionary/task_words.js';
 import vQuizz from './vQuizz.vue';
 import vLoader from './vLoader.vue';
-import vLesson from './vLesson.vue'
 
 export default {
-    name: 'studyMenu',
+    name: 'vPractice',
     components: {
         vQuizz,
         vLoader,
-        vLesson
     },
     props: {
         language: String,
@@ -190,7 +156,7 @@ h1 {
 
     .studyMenu {
         display: flex;
-        width: 70vw;
+        width: 100%;
         margin: auto;
         flex-wrap: wrap;
         justify-content: center;
@@ -240,14 +206,14 @@ h1 {
         opacity: 50%;
         background-color: gray;
     }
-    @media screen and (max-width: 1000px) {
+    /* @media screen and (max-width: 1000px) {
         .studyMenu {
         width: 95vw;
     }
     .element {
         width: 250px;
     }
-}
+} */
 
     @media screen and (max-width: 500px) {
         .studyMenu {

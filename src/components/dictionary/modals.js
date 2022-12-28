@@ -55,18 +55,20 @@ const dictionaryModal =  {
   },
   contacts: {
     title: {
-        ua: "Контакти",
-        ge: "კონტაქტები"
+        ua: "Контакти розробника",
+        ge: "დეველოპერის კონტაქტები"
     },
     description: {
         ua: `
-            <p>Instagram: <a href="https://www.instagram.com/hruba.yurii/">hruba.yurii</a></p>
-            <p>Telegram: <a href="https://t.me/termokop">termokop</a></p>
+            <a href="https://www.instagram.com/hruba.yurii/" _blank><img class="contacts" src="../assets/inst.svg" alt=""></a>
+            <a href="https://t.me/termokop" _blank><img class="contacts" src="../assets/tl.svg" alt=""></a>
+            <a href="https://www.facebook.com/termokop"><img class="contacts" src="../assets/fb.svg" alt=""></a>
             <p>Пишіть мені з приводу проблем, пропозицій та ідей. Залюбки вислухаю кожного.</p>
         `,
         ge: `
-            <p>Instagram: <a href="https://www.instagram.com/hruba.yurii/">hruba.yurii</a></p>
-            <p>Telegram: <a href="https://t.me/termokop">termokop</a></p>
+            <a href="https://www.instagram.com/hruba.yurii/"><img class="contacts" src="../assets/inst.svg" alt=""></a>
+            <a href="https://t.me/termokop"><img class="contacts" src="../assets/tl.svg" alt=""></a>
+            <a href="https://www.facebook.com/termokop"><img class="contacts" src="../assets/fb.svg" alt=""></a>
             <p>მომწერეთ პრობლემები, წინადადებები და იდეები. ყველას სიამოვნებით მოვუსმენ.</p>
         `
     }
