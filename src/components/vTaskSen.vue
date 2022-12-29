@@ -1,44 +1,43 @@
 <template>
     <div class="task" v-if="task.type === 'create_sentence'">
-        <div class="quetion">
-            <p>{{dictionary.task[language]}}</p>
-        </div>
-        <div class="question ">
-            <p class="tooltip">
-                <span  v-html="func.translit(task.question,language)"></span> 
-                <span class="tooltiptext">{{task.correct_answer}}</span>
-            </p>
-        </div>
-        <div class="answer">
-            <p ref="answer">
-                <span v-for="(word,index) in sentence" :key="word"> 
-                    <span v-if="word!=='<...>'">{{word + ' '}}</span> 
-                    <span 
-                        class="placehold" 
-                        :class="{wrongAns:wrongAns,corrAns: corrAns}"
-                        @click="removeWord(index)" 
-                        v-else>{{count(index) + ' '}}
-                    </span>
-                </span>
-            </p>
+        <div class="question">
+            <p class="center">{{dictionary.task[language]}}</p>
         </div>
         <div class="variants">
-            <div 
-                class="word-item" 
-                v-for="variant in sorted" 
-                :key="variant" 
-                @click="addWordToSentence(variant)"
-                >
-                <button 
-                :disabled="answersArr.includes(variant)"
-                ><span v-html="func.translit(variant,language)"></span></button>
+            <div class="subquestion">
+                <p class="tooltip">
+                    <span  v-html="func.translit(task.question,language)"></span> 
+                    <span class="tooltiptext">{{task.correct_answer}}</span>
+                </p>
+            </div>
+            <div class="answer">
+                <p ref="answer">
+                    <span v-for="(word,index) in sentence" :key="word"> 
+                        <span v-if="word!=='<...>'">{{word + ' '}}</span> 
+                        <span 
+                            class="placehold" 
+                            :class="{wrongAns:wrongAns,corrAns: corrAns}"
+                            @click="removeWord(index)" 
+                            v-else>{{count(index) + ' '}}
+                        </span>
+                    </span>
+                </p>
+            </div>
+            <div class="subvariants">
+                <div 
+                    class="word-item" 
+                    v-for="variant in sorted" 
+                    :key="variant" 
+                    @click="addWordToSentence(variant)"
+                    >
+                    <button 
+                    :disabled="answersArr.includes(variant)"
+                    ><span v-html="func.translit(variant,language)"></span></button>
+                </div>
             </div>
         </div>
-        <div
-            class="ansButton"
-            >
+        <div class="ansButton">
             <button
-            
                 @click="nextTask"
                 :disabled="!showCheckBtn"
                 :class="{visible:showCheckBtn}"
@@ -166,33 +165,14 @@
 
     <style scoped>
 
-    *{
-        font-size: 16px;
-        
-        cursor: default;
-    }
-        .task {
-            display: flex;
-            flex-wrap: wrap;
-            align-content: space-between;
-            margin: auto;
-            color: #fff;
-            height: 85vh;
-        }
-        .quetion {
-            width: 100%;
-            padding: 0;
-        }
-        .quetion p {
-            width: fit-content;
-            margin: auto;
-        }
-        .question {
+
+
+        .subquestion {
             width: fit-content;
             margin: auto;
             padding: 0;
         }
-        .question p  span{
+        .subquestion p  span{
             display: flex;
         }
 
@@ -205,43 +185,10 @@
             margin: auto;
         }
     
-        .ansButton {
-            width: 50%;
-            margin: auto;
-        }
-        .ansButton button {
-            border-radius: 30px;
-            width: 100%;
-            margin: auto;
-            background-color: green;
-            padding: 20px;
-            color: rgb(0, 0, 0);
-            /* font-weight: bold; */
-            border: none;
-            height: 100%;
-        }
-         @keyframes ansbutton {
-            from {background-color: #3d3d3d;}
-            to {background-color: green;}
-        }
-        @keyframes ansbuttonDissable {
-            from {background-color: green;}
-            to {background-color: #3d3d3d;}
-        } 
-        .ansButton button[disabled] {
-            background-color: #3d3d3d;
-            color: #1d1d1d;
-            animation-name: ansbuttonDissable;
-            animation-duration: 0.5s;
-        } 
-         .visible {
-            animation-name: ansbutton;
-            animation-duration: 1s;
-            border: none;
-        } 
+
     
         
-        .variants {
+        .subvariants {
             width: 100%;
             padding: 0;
             margin: auto;
@@ -321,19 +268,9 @@
             border-style: solid;
             border-color: transparent transparent black transparent;
         }
-        .skip {
-            width: fit-content;
-            margin: auto;
-        }
-        .skip button {
-            background-color: transparent;
-            color: white;
-        }
+
 
         @media screen and (max-width: 700) {
-            *{
-                font-size: 2.5vw;
-            }
             .ua  {
                 font-size: 1.8vw;
             }

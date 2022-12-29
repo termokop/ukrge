@@ -4,9 +4,7 @@
     
     <vAuth v-if="!isUserLoggined" :language="language"  @user-loginned-success="login"></vAuth>
 
-    <vMainPage v-if="isUserLoggined" @logout="logout" :language="language" @hideFooter="showFooterFn"></vMainPage>
-
-    <vFooter v-if="false" :language="language"></vFooter>
+    <vMainPage v-if="isUserLoggined" @logout="logout" :language="language"></vMainPage>
 
     <vLoader :loader="loader"></vLoader>
 
@@ -18,7 +16,6 @@
 import vHeader from './components/vheader.vue'
 import vAuth from './components/vauth.vue'
 import vMainPage from './components/vmainpage.vue'
-import vFooter from './components/vfooter.vue'
 import vLoader from './components/vLoader.vue'
 
 export default {
@@ -27,7 +24,6 @@ export default {
     vHeader,
     vAuth,
     vMainPage,
-    vFooter,
     vLoader,
   },
   data() {
@@ -86,8 +82,14 @@ export default {
     height: 0;
     }
 
+    * {
+      box-sizing: border-box;
+    }
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  height: 95vh;
+  overflow: hidden;
   
 }
 body {
@@ -114,12 +116,4 @@ button {
     height: 40px;
     border: none;
 }
-</style>
-
-<style scoped>
-.content {
-  height: 100vh;
-}
-
-
 </style>

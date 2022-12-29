@@ -101,6 +101,7 @@ export default {
     padding: 0;
     box-sizing: border-box;
     font-size: 16px;
+    color: black;
 }
 
 .bg{

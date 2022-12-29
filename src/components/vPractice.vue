@@ -10,6 +10,7 @@
         :language="language"
         @repeat="repeatQuiz"
         @changeTopic="openQuizFn"
+        @hide_menu="hideMenu"
         >
     </vQuizz>
 
@@ -50,7 +51,7 @@ export default {
         language: String,
 
     },
-    emits: ['openQuiz'],
+    emits: ['openQuiz','hide_menu'],
     data () {
         return {
             dictionary,
@@ -59,8 +60,6 @@ export default {
             quiz: null,
             openQuiz: false,
             lastTopic: '',
-            lessonObj: null,
-            isLessonOpened: false
         }
     },
     methods: {
@@ -109,25 +108,8 @@ export default {
                 this.loader = false
             }
         },
-        async startLesson(lesson) {
-            this.loader = true
-            const url = 'https://www.ukrge.site/api/get_lesson.php'
-            const json = JSON.stringify({lesson: lesson})
-            
-            try {
-                let response = await fetch(url, {
-                    method: 'POST',
-                    body: json
-                })
-                let result = await response.json()
-                this.lessonObj = result;
-                this.isLessonOpened = true
-            } catch(error) {
-                //console.log(error)
-                alert('Поки що доступно тільки 2 уроки. Решта в розробці')
-            } finally {
-            this.loader = false
-            }
+        hideMenu(bool){
+            this.$emit('hide_menu', bool)
         }
     },
     created() {
@@ -141,6 +123,8 @@ export default {
     mounted() {
 
     },
+    unmounted() {
+    }
 
 }
 

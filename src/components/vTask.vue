@@ -1,7 +1,7 @@
 <template>
 <div class="task" v-if="task[0].type === 'words'">
-    <div class="quetion">
-        <p>{{dictionary.task[language]}}</p>
+    <div class="question">
+        <p class="center">{{dictionary.task[language]}}</p>
     </div>
     <div class="variants">
         <p><vPlayAudio v-if="false"></vPlayAudio></p>
@@ -140,76 +140,6 @@ export default {
 </script>
 
 <style scoped>
-    *{
-        
-        font-size: 16px;
-        cursor: default;
-    }
-
-    .task {
-        display: flex;
-        align-content: space-between;
-        flex-wrap: wrap;
-        width: 100%;
-        margin: auto;
-        color: #fff;
-        height: 80vh;
-    }
-    .quetion {
-        width: 100%;
-        padding: 0;
-        font-size: 1em;
-    }
-
-    .quetion p {
-        width: fit-content;
-        margin: auto;
-    }
-
-    .ansButton {
-        width: 50%;
-        margin: auto;
-        
-    }
-    .ansButton button {
-        border-radius: 10px;
-        width: 100%;
-        margin: auto;
-        background-color: green;
-        padding: 20px;
-        color: rgb(0, 0, 0);
-        font-size: 1em;
-        font-weight: bold;
-        height: 100%;
-    }
-    @keyframes ansbutton {
-        from {background-color: #3d3d3d;}
-        to {background-color: green;}
-    }
-    @keyframes ansbuttonDissable {
-        from {background-color: green;}
-        to {background-color: #3d3d3d;}
-    }
-    .ansButton button[disabled] {
-        background-color: #3d3d3d;
-        color: #1d1d1d;
-        animation-name: ansbuttonDissable;
-        animation-duration: 0.5s;
-    }
-    .visible {
-        animation-name: ansbutton;
-        animation-duration: 1s;
-    }
-
-    
-    .variants {
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-wrap: wrap;
-    }
-
     .word-items {
         width: 50%;
         margin: 0;
@@ -277,21 +207,9 @@ export default {
         margin: auto;
     }
 
-    .skip {
-        width: fit-content;
-        margin: auto;
-    }
-    .skip button {
-        
-        background-color: transparent;
-        color: white;
-    }
     @media screen and (max-width: 700px) {
         .word-item {
         width: 95%;
-    }
-    *{
-        font-size: 2.5vw;
     }
     .word-items :deep() table {
             font-size: 2.3vw;

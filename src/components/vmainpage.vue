@@ -1,17 +1,17 @@
 <template>
     <div class="main">
-      <div class="buttons" v-if="!openQuiz">
-        <button  @click.prevent="choose('course')">{{dictionary.study[language]}}</button>
-        <button  @click.prevent="choose('practice')">{{'Практикуватися'}}</button> 
-        <button  @click.prevent="choose('temp')">{{'Вчити слова'}}</button>
-        <button  @click.prevent="choose('temp')">{{'Знайти друзів'}}</button> 
-        <button  @click.prevent="choose('settings')">{{dictionary.editProfile[language]}}</button> <!--реалізація кнопки виходу-->
-        <button  @click.prevent="choose('about')">{{'Про проєкт'}}</button> 
-        <button  @click.prevent="choose('help')">{{'Допомогти проєкту'}}</button> 
-        <button  @click.prevent="this.$emit('logout')">{{dictionary.logout[language]}}</button> <!--реалізація кнопки виходу-->
+      <div class="buttons" v-if="!showMenu">
+        <button  @click.prevent="choose('course')"><img class="logoBtn" src="../assets/study.svg" alt=""> <span class="textBtn">{{dictionary.study[language]}}</span></button>
+        <button  @click.prevent="choose('practice')"><img class="logoBtn" src="../assets/practice.svg" alt=""> <span class="textBtn">{{'Практикуватися'}}</span></button> 
+        <button  @click.prevent="choose('temp')"><img class="logoBtn" src="../assets/st_words.svg" alt=""> <span class="textBtn">{{'Вчити слова'}}</span></button>
+        <button  @click.prevent="choose('temp')"><img class="logoBtn" src="../assets/comun.svg" alt=""> <span class="textBtn">{{'Знайти друзів'}}</span></button> 
+        <button  @click.prevent="choose('settings')"><img class="logoBtn" src="../assets/settings.svg" alt=""> <span class="textBtn">{{'Налаштування'}}</span></button> <!--реалізація кнопки виходу-->
+        <button  @click.prevent="choose('about')"><img class="logoBtn" src="../assets/about.svg" alt=""> <span class="textBtn">{{'Про проєкт'}}</span></button> 
+        <button  @click.prevent="choose('help')"><img class="logoBtn" src="../assets/donate.svg" alt=""> <span class="textBtn">{{'Допомогти проєкту'}}</span></button> 
+        <button  @click.prevent="this.$emit('logout')"><img class="logoBtn" src="../assets/logout.svg" alt=""> <span class="textBtn">{{dictionary.logout[language]}}</span></button> <!--реалізація кнопки виходу-->
     </div>
 
-    <div class="content">
+    <div class="content" :class="{'showBelowMenu':!showMenu}">
               <!--анкета користувача, яка автоматично з'являється при першому вході-->
         <vInputUserInfo
             v-if="whatIsContent === 'settings'"
@@ -27,6 +27,7 @@
         </vCourse>
 
         <vPractice
+            @hide_menu="testFn"
             :language="language"
             v-if="whatIsContent === 'practice'">
         </vPractice>
@@ -34,6 +35,7 @@
         <div class="about" v-if="whatIsContent==='about'">
             <h1>{{ dictionaryModal.history.title[language] }}</h1>
             <span v-html=" dictionaryModal.history.description[language]"></span>
+            <vContacts :language="language" :widthLogoBox="'60px'"></vContacts>
         </div>
 
         <div class="help" v-if="whatIsContent==='help'">
@@ -54,19 +56,15 @@
         </div>
         </div>
 
-    <div class="right-bar">
+    <div class="right-bar"  v-if="!showMenu">
         <div>
             <p>Цікаві факти про Сакартвело:</p>
             <p><i>Гості – це божий дар, каже картвельське прислів'я. Тому іноземців тут завжди вітають горами їжі й питва.</i></p>
             <hr>
         </div>
-        <div>
-            <p class="center">{{dictionaryModal.contacts.title[language]}}:</p>
-            <a href="https://www.instagram.com/hruba.yurii/"  target="_blank"><img class="contacts" src="../assets/inst.svg" alt=""></a>
-            <a href="https://t.me/termokop"  target="_blank"><img class="contacts" src="../assets/tl.svg" alt=""></a>
-            <a href="https://www.facebook.com/termokop"  target="_blank"><img class="contacts" src="../assets/fb.svg" alt=""></a>
-            <p>Пишіть мені з приводу проблем, пропозицій та ідей. Залюбки вислухаю кожного.</p>
-        </div>
+        
+
+        <vContacts :language="language"></vContacts>
     </div>
 </div>
 
@@ -79,6 +77,7 @@ import dictionary from './dictionary/main.js'
 import vCourse from './vCourse.vue'
 import vPractice from './vPractice.vue'
 import dictionaryModal from './dictionary/modals'
+import vContacts from './vContacts.vue'
 
 export default {
     name: "vMainPage",
@@ -86,12 +85,13 @@ export default {
     vInputUserInfo,
     vCourse,
     vPractice,
+    vContacts
 
   },
     props: {
         language: String
     },
-    emits: ['logout','openQuiz'],
+    emits: ['logout','openQuiz','hide_menu'],
     data() {
         return {
             dictionary,
@@ -100,6 +100,7 @@ export default {
             whatIsContent: 'course',
             canStudy: undefined,
             openQuiz: false,
+            showMenu: false,
         }
         
     },
@@ -109,7 +110,15 @@ export default {
         },
         choose(str) {
             this.whatIsContent = str
-      },
+        },
+        hideMenu(bool) {
+            this.showMenu = bool
+            console.log(bool)
+        },
+        testFn(bool) {
+            this.showMenu = bool
+            console.log(this.showMenu);
+        }
 
     },
     created() {
@@ -131,13 +140,17 @@ export default {
 .right-bar, .buttons {
     width: 15vw;
     padding: 10px;
-    min-width: 150px;
 }
 
 
 .buttons button {
     width: 100%;
     margin-bottom: 5px;
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
 }
 .buttons button:hover{
     background-color: aqua;
@@ -145,12 +158,22 @@ export default {
 
 .content {
     width: 65vw;
-    margin: auto;
-    height: 85vh;
+    height: 100vh;
     overflow-y: scroll;
     padding: 10px;
+    padding-bottom: 100px;
     color: #fff;
+    margin: auto;
+    margin-top: 0;
 }
+
+.showBelowMenu {
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+
+
 
 .content::-webkit-scrollbar {
   width: 0;
@@ -166,6 +189,7 @@ export default {
 }
 .buttons {
     border-right: 3px rgb(255, 255, 255) solid;
+    min-width: 280px;
 }
 .templateComponent {
     height: 100%;
@@ -184,11 +208,13 @@ img {
  justify-content: center;
 }
 
-.contacts {
-    width: 33%;
+.logoBtn {
+    height: 100%;
+    padding: 0;
+    margin: 0;
 }
-#threeot {
-    display: none;
+.textBtn {
+    width: fit-content;
 }
 
 @media screen and (max-width: 1000px) {
@@ -197,16 +223,16 @@ img {
     }
     .content {
         flex-grow: 1;
-        padding: 0;
     }
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 700px) {
 
-    .content {
-        position: relative;
-        padding-bottom: 70px;
+
+    .showBelowMenu {
+        height: 85vh;
     }
+
     .buttons {
         position: fixed;
         bottom: 0;
@@ -214,7 +240,7 @@ img {
         margin: 0;
         padding: 0;
         width: 100%;
-        height: 50px;
+        height: 80px;
         display: flex;
         flex-wrap: nowrap;
         justify-items: center;
@@ -229,9 +255,18 @@ img {
         bottom: 0;
         flex: 0 0 25%;;
         height: 100%;
-        border: 2px solid lightblue;
+        /* border: 2px solid lightblue; */
+        background-color: transparent;
         margin: 0;
         border-radius: 10px;
+    }
+
+    .textBtn {
+        display: none;
+    }
+    .logoBtn {
+        width: 50%;
+        margin: auto;
     }
 
 }

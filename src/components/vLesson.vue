@@ -84,8 +84,9 @@ export default {
         vPlayAudio,
     },
     props: {
-        lessonObj: Array,
+        lessonObj: Object,
     },
+    emits: ['backToMenu'],
     data() {
         return {
             showModalForMistake: false,
