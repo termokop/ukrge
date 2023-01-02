@@ -9,7 +9,7 @@
         <span v-html="lessonObj.info.intro"></span>
     </div>
     
-    <div class="letters">
+    <div v-if="lessonObj.letters.length > 0" class="letters">
         <h3>Літери для вивчення:</h3> 
         <table>
             <tr v-for="letter in lessonObj.letters" :key="letter.voice">
@@ -21,19 +21,19 @@
         </table>
     </div>
 
-    <div class="words">
+    <div v-if="lessonObj.words.length > 0" class="words">
         <h3>Слова для вивченя:</h3>
         <table>
             <tr v-for="word in lessonObj.words" :key="word.voice">
                 <td><vPlayAudio :audioUrl="word.voice"></vPlayAudio></td>
                 <td class="ge">{{ word.ge }}</td>
                 <td>-</td>
-                <td class="ua">{{ word.ua }}</td>
+                <td class="ua">{{ word.ua + ' ' +word.ua_additional }}</td>
             </tr>
         </table>
     </div>
     
-    <div class="sentences">
+    <div v-if="lessonObj.sentences.length > 0" class="sentences">
         <h3>Речення:</h3>  
         <table>
             <div v-for="sentence in lessonObj.sentences" :key="sentence.voice">

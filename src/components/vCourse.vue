@@ -17,7 +17,6 @@
     </div>
 </div>
 
-
     <vLesson 
         v-if="isLessonOpened" 
         :lessonObj="lessonObj"
@@ -45,7 +44,6 @@ export default {
         language: String,
 
     },
-    emits: ['openQuiz'],
     data () {
         return {
             dictionary,
@@ -59,51 +57,6 @@ export default {
         }
     },
     methods: {
-        openQuizFn() {
-            this.openQuiz = false
-            this.$emit('openQuiz', (this.openQuiz))
-        },
-        repeatQuiz() {
-            this.openQuiz = false
-            this.startQuizz(this.lastTopic)
-        },
-        getTopics() {
-             fetch('https://www.ukrge.site/api/get_task_list.php')
-            .then((response) => response.json())
-            .then((data) => {
-                localStorage.topics = JSON.stringify(data.task)
-            });
-        },
-        async startQuizz(key) {
-            this.lastTopic = key
-            this.loader = true
-            const url = 'https://www.ukrge.site/api/get_task.php'
-            const json = JSON.stringify({topic: key})
-            
-            try {
-                let response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*' 
-                    },
-                    body: json
-                });
-                let result = await response.json()
-                if (result.task.length < 1) {
-                    throw new Error('not found any tasks')
-                }
-                this.quiz = result.task
-                this.openQuiz = true
-                this.$emit('openQuiz',this.openQuiz)
-            } catch (error) {
-                alert(error)
-                console.log(error)
-            } finally {
-                this.loader = false
-            }
-        },
         async startLesson(lesson) {
             this.loader = true
             const url = 'https://www.ukrge.site/api/get_lesson.php'
@@ -115,22 +68,16 @@ export default {
                     body: json
                 })
                 let result = await response.json()
-                this.lessonObj = result;
-                this.isLessonOpened = true
+                if(result.info) {
+                    this.lessonObj = result;
+                    this.isLessonOpened = true
+                } else alert('Урок №' + lesson + ' ще в розробці')
             } catch(error) {
                 //console.log(error)
                 alert('Поки що доступно тільки 2 уроки. Решта в розробці')
             } finally {
             this.loader = false
             }
-        }
-    },
-    created() {
-        if(localStorage.topics) {
-           this.topics = JSON.parse(localStorage.topics)
-           this.getTopics()
-        } else {
-            this.getTopics()
         }
     },
     mounted() {
@@ -175,45 +122,17 @@ h1 {
         border-width: 3px 3px 3px 3px;
     }
 
-    .title {
-        width: fit-content;
-        margin: auto;
-        font-weight: bold;
-    }
-    .counter {
-        width: fit-content;
-        height: fit-content;
-        position: absolute;
-        right: 2px;
-        top: 2px;
-        padding: 5px;
-        margin: 0;
-        font-size: x-small;
-        border-radius: 50%;
-        background-color: green;
-        display: none;
-    }
-
-
     button[disabled] {
         opacity: 50%;
         background-color: gray;
     }
-    /* @media screen and (max-width: 1000px) {
-        .studyMenu {
-        width: 95vw;
-    }
-    .element {
-        width: 250px;
-    }
-} */
 
     @media screen and (max-width: 500px) {
         .studyMenu {
         width: 95vw;
     }
     .element {
-        width: 95vh;
+        width: 90vh;
 
     }
     }
