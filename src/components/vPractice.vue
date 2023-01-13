@@ -4,17 +4,7 @@
     <vLoader :loader="loader"></vLoader>
 
 
-    <vQuizz 
-        v-if="openQuiz" 
-        :quiz="quiz" 
-        :language="language"
-        @repeat="repeatQuiz"
-        @changeTopic="openQuizFn"
-        @hide_menu="hideMenu"
-        >
-    </vQuizz>
-
-    <div class="content"  v-if="!openQuiz">
+    <div class="content">
         <h1>Перевір свої знання</h1>
 
         <div class="studyMenu">
@@ -38,39 +28,28 @@
 
 <script>
 import dictionary from './dictionary/task_words.js';
-import vQuizz from './vQuizz.vue';
 import vLoader from './vLoader.vue';
 
 export default {
     name: 'vPractice',
     components: {
-        vQuizz,
         vLoader,
     },
     props: {
         language: String,
 
     },
-    emits: ['openQuiz','hide_menu'],
+    emits: ['start_quiz'],
     data () {
         return {
             dictionary,
             topics: null,
             loader: false,
             quiz: null,
-            openQuiz: false,
             lastTopic: '',
         }
     },
     methods: {
-        openQuizFn() {
-            this.openQuiz = false
-            this.$emit('openQuiz', (this.openQuiz))
-        },
-        repeatQuiz() {
-            this.openQuiz = false
-            this.startQuizz(this.lastTopic)
-        },
         getTopics() {
              fetch('https://www.ukrge.site/api/get_task_list.php')
             .then((response) => response.json())
@@ -98,9 +77,7 @@ export default {
                 if (result.task.length < 1) {
                     throw new Error('not found any tasks')
                 }
-                this.quiz = result.task
-                this.openQuiz = true
-                this.$emit('openQuiz',this.openQuiz)
+                this.$emit('start_quiz',result.task)
             } catch (error) {
                 alert(error)
                 console.log(error)
@@ -108,9 +85,6 @@ export default {
                 this.loader = false
             }
         },
-        hideMenu(bool){
-            this.$emit('hide_menu', bool)
-        }
     },
     created() {
         if(localStorage.topics) {

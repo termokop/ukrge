@@ -12,8 +12,7 @@
                 v-if="index === counter && !showScore && typeof(quiz[counter]) === 'object' && quiz[counter].type === 'create_sentence'" 
                 :task="quiz[counter]" 
                 @nextTask="nextTask"
-                
-            :language="language"
+                :language="language"
                 >
             </vTaskSen>
         </template>
@@ -24,6 +23,7 @@
             :language="language"
             @repeat="this.$emit('repeat')"
             @changeTopic="this.$emit('changeTopic')"
+            @finish_quiz="this.$emit('finish_quiz')"
             >
         </vScore>
     </div>
@@ -66,6 +66,7 @@ export default {
     },
     created() {
         this.$emit('hide_menu', true)
+        alert(this.quiz)
     },
     unmounted() {
         this.$emit('hide_menu', false)

@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-      <div class="buttons" v-if="!showMenu">
+      <div class="buttons">
         <button  @click.prevent="choose('course')"><img class="logoBtn" src="../assets/study.svg" alt=""> <span class="textBtn">{{dictionary.study[language]}}</span></button>
         <button  @click.prevent="choose('practice')"><img class="logoBtn" src="../assets/practice.svg" alt=""> <span class="textBtn">{{'Практикуватися'}}</span></button> 
         <button  @click.prevent="choose('temp')"><img class="logoBtn" src="../assets/st_words.svg" alt=""> <span class="textBtn">{{'Вчити слова'}}</span></button>
@@ -11,11 +11,10 @@
         <button  @click.prevent="this.$emit('logout')"><img class="logoBtn" src="../assets/logout.svg" alt=""> <span class="textBtn">{{dictionary.logout[language]}}</span></button> <!--реалізація кнопки виходу-->
     </div>
 
-    <div class="content" :class="{'showBelowMenu':!showMenu}">
+    <div class="content">
               <!--анкета користувача, яка автоматично з'являється при першому вході-->
         <vInputUserInfo
             v-if="whatIsContent === 'settings'"
-            @canGoStudy="canStudyEmit"
             :language="language"
             >
         </vInputUserInfo> 
@@ -23,11 +22,12 @@
         <vCourse
             :language="language"
             v-if="whatIsContent === 'course'"
+            @start_quiz="start_quiz"
             >
         </vCourse>
 
         <vPractice
-            @hide_menu="testFn"
+            @start_quiz="start_quiz"
             :language="language"
             v-if="whatIsContent === 'practice'">
         </vPractice>
@@ -56,7 +56,7 @@
         </div>
         </div>
 
-    <div class="right-bar"  v-if="!showMenu">
+    <div class="right-bar">
         <div>
             <p>Цікаві факти про Сакартвело:</p>
             <p><i>Гості – це божий дар, каже картвельське прислів'я. Тому іноземців тут завжди вітають горами їжі й питва.</i></p>
@@ -91,34 +91,23 @@ export default {
     props: {
         language: String
     },
-    emits: ['logout','openQuiz','hide_menu'],
+    emits: ['logout','start_quiz'],
     data() {
         return {
             dictionary,
             dictionaryModal,
             userInfo: undefined,
             whatIsContent: 'course',
-            canStudy: undefined,
-            openQuiz: false,
-            showMenu: false,
         }
         
     },
     methods: {
-        canStudyEmit(nickname) {
-            this.canStudy = !nickname
+        start_quiz(arr) {
+            this.$emit('start_quiz', arr)
         },
         choose(str) {
             this.whatIsContent = str
         },
-        hideMenu(bool) {
-            this.showMenu = bool
-            console.log(bool)
-        },
-        testFn(bool) {
-            this.showMenu = bool
-            console.log(this.showMenu);
-        }
 
     },
     created() {

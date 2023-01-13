@@ -1,10 +1,4 @@
 <template>
-
-
-    
-
-
-    
 <div class="content" v-if="!isLessonOpened">
     <h1 class='center'>Курс картвельської мови</h1> <br>
     <div class="studyMenu">
@@ -21,6 +15,7 @@
         v-if="isLessonOpened" 
         :lessonObj="lessonObj"
         @backToMenu="isLessonOpened = false"
+        @start_quiz="start_quiz"
         >
     </vLesson>
 
@@ -42,8 +37,8 @@ export default {
     },
     props: {
         language: String,
-
     },
+    emits: ['start_quiz'],
     data () {
         return {
             dictionary,
@@ -57,6 +52,9 @@ export default {
         }
     },
     methods: {
+        start_quiz(arr) {
+            this.$emit('start_quiz', arr)
+        },
         async startLesson(lesson) {
             this.loader = true
             const url = 'https://www.ukrge.site/api/get_lesson.php'

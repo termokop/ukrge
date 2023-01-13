@@ -1,10 +1,21 @@
 <template>
+  <vQuizz 
+    :quiz="quiz_arr" 
+    @finish_quiz="finish_quiz"
+    :language="language" 
+    v-if="quiz_arr"></vQuizz>
   <div class="content">
     <vHeader :language="language" @change-lang="updateLang"></vHeader>
     
     <vAuth v-if="!isUserLoggined" :language="language"  @user-loginned-success="login"></vAuth>
 
-    <vMainPage v-if="isUserLoggined" @logout="logout" :language="language"></vMainPage>
+    <vMainPage 
+      v-if="isUserLoggined" 
+      @logout="logout" 
+      :language="language"
+        @start_quiz="start_quiz"
+      >
+    </vMainPage>
 
     <vLoader :loader="loader"></vLoader>
 
@@ -17,6 +28,7 @@ import vHeader from './components/vheader.vue'
 import vAuth from './components/vauth.vue'
 import vMainPage from './components/vmainpage.vue'
 import vLoader from './components/vLoader.vue'
+import vQuizz from './components/vQuizz.vue';
 
 export default {
   name: 'App',
@@ -25,13 +37,15 @@ export default {
     vAuth,
     vMainPage,
     vLoader,
+    vQuizz,
   },
   data() {
         return {
             isUserLoggined: localStorage.getItem('jwt'),
             language: 'ua',
             loader: false,
-                       
+            quiz_arr: null,
+            show_quiz: false      
         }
     },
     methods: {
@@ -51,6 +65,13 @@ export default {
         localStorage.removeItem('jwt')
         localStorage.removeItem('userInfo')
         this.isUserLoggined = false
+      },
+      start_quiz(arr) {
+        this.quiz_arr = arr
+        console.log(arr)
+      },
+      finish_quiz() {
+        this.start_quiz(null)
       },
     },
     created() {

@@ -49,6 +49,8 @@
     <button @click="repeat">{{dictionary.btnRepeat[language]}}</button>
     
     <button @click="changeTopic">{{dictionary.btnChangeTopic[language]}}</button>
+
+    <button @click="finish_quiz">Продовжити</button>
 </div>
 </div>
 </template>
@@ -70,6 +72,9 @@ export default {
         }
     },
     methods: {
+        finish_quiz() {
+            this.$emit('finish_quiz')
+        },
         sendScoreInfo() {
             // here fetch for send new score on the server
         },

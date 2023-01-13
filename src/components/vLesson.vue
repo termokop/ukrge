@@ -86,10 +86,68 @@ export default {
     props: {
         lessonObj: Object,
     },
-    emits: ['backToMenu'],
+    emits: ['backToMenu', 'start_quiz'],
     data() {
         return {
             showModalForMistake: false,
+            arr:        [ [
+            {
+                "id": "19",
+                "ge": "დამეხმარეთ",
+                "ge_voice": "",
+                "ua": "допоможіть",
+                "ua_voice": "",
+                "topic": "basic_words_1",
+                "type": "words"
+            },
+            {
+                "id": "3",
+                "ge": "როგორა ხართ",
+                "ge_voice": "",
+                "ua": "як у вас справи",
+                "ua_voice": "",
+                "topic": "basic_words_1",
+                "type": "words"
+            },
+            {
+                "id": "2",
+                "ge": "გამარჯობა",
+                "ge_voice": "",
+                "ua": "привіт",
+                "ua_voice": "",
+                "topic": "basic_words_1",
+                "type": "words"
+            },
+            {
+                "id": "105",
+                "ge": "დროებით",
+                "ge_voice": "",
+                "ua": "до зустрічі",
+                "ua_voice": "",
+                "topic": "basic_words_1",
+                "type": "words"
+            }
+        ],
+        {
+            "id": "5",
+            "question": "Мене звати Ана",
+            "answer": "<...> <...> <...>",
+            "correct_answer": "მე მქვია ანა",
+            "variants_real": "მე,მქვია,ანა",
+            "variants_fake": "დროებით,როგორ,კარგ",
+            "topic": "basic_words_1",
+            "type": "create_sentence"
+        },
+        {
+            "id": "9",
+            "question": "Доброго ранку",
+            "answer": "<...> მშვიდობისა",
+            "correct_answer": "დილა მშვიდობისა",
+            "variants_real": "დილა",
+            "variants_fake": "საღამო,გქვია,შუადღე",
+            "topic": "basic_words_1",
+            "type": "create_sentence"
+        }],  
         }
     },
     methods: {
@@ -97,7 +155,7 @@ export default {
             this.$emit('backToMenu')
         },
         startQuiz() {
-            alert('В розробці...')
+            this.$emit('start_quiz', this.arr)
         }
     },
     created() {
