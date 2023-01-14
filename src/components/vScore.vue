@@ -46,9 +46,11 @@
 
 
 <div class="buttons">
-    <button @click="repeat">{{dictionary.btnRepeat[language]}}</button>
-    
-    <button @click="changeTopic">{{dictionary.btnChangeTopic[language]}}</button>
+    <template v-if="false">
+        <button @click="repeat">{{dictionary.btnRepeat[language]}}</button>
+        
+        <button @click="changeTopic">{{dictionary.btnChangeTopic[language]}}</button>
+    </template>
 
     <button @click="finish_quiz">Продовжити</button>
 </div>

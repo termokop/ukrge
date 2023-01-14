@@ -40,7 +40,7 @@ import dictionaryModal from './dictionary/modals';
 export default {
     name: 'vModalErr',
     props: {
-        obj: Object,
+        objInfo: Object,
     },
     emits: ['closeModal'],
     data() {
@@ -55,6 +55,19 @@ export default {
         }
     },
     methods: {
+        create_mistake_msg() {
+            let msg = ''
+            if (this.objInfo.lesson)  {
+                msg = `Lesson # ${this.objInfo.lesson}`
+            } else if (this.objInfo.type === 'create_sentence') {
+                msg = `Sentence: id ${this.objInfo.id}`
+            } else if(this.objInfo[0].id) {
+                msg = `Words id: ${this.objInfo[0].id}, ${this.objInfo[1].id}, ${this.objInfo[2].id}, ${this.objInfo[3].id}`
+            } else {
+                msg = 'Unknown mistake'
+            }
+            return msg
+        },
         async sendMistakeInfo() {
             let mistakeInfoObj =  {
                 info: {
@@ -62,15 +75,12 @@ export default {
                     gramar: this.gramar,
                     translate: this.translate,
                     other: this.other,
-                    obj: this.obj
+                    obj: this.create_mistake_msg()
                 },
                 user: JSON.parse(localStorage.userInfo).email,
                 text: this.text
             }
             const json = JSON.stringify(mistakeInfoObj)
-            
-            console.log('object',mistakeInfoObj)
-            console.log('json',json)
             const url = 'https://www.ukrge.site/api/set_mistake.php'
             try {
                 let response = await fetch(url, {
@@ -83,8 +93,7 @@ export default {
                     body: json
                 })
                 let result = await response.json()
-                console.log('result',result)
-                alert('Дякую, що допомогаєте нам ставати краще. Найближчим часом проблему буде розглянуто.')
+                if (result) alert('Дякую, що допомогаєте нам ставати краще. Найближчим часом проблему буде розглянуто.')
                 this.$emit('closeModal')
             } catch(e) {
                 alert(e)
@@ -151,6 +160,18 @@ textarea {
     width: 100%;
     padding: 2px;
     border: rgb(87, 85, 85) solid 1px;
+}
+
+button {
+    width: 40%;
+    border-radius: 20px;
+    height: 40px;
+    border: none;
+}
+
+.red {
+    background-color: #8e0000;
+    color: #fff;
 }
 
 </style>

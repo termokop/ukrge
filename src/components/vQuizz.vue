@@ -83,6 +83,7 @@ export default {
     margin: auto;
     height: 100%
  }
+ 
 </style>
 
 <style>

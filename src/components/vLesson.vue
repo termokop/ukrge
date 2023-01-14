@@ -64,24 +64,24 @@
         <button class="green" @click.prevent="startQuiz">Практикуватися</button>
     </div>
 
-    <div class="mistake">
-        <button @click.prevent="showModalForMistake = true">Виявили помилку на цій сторінці? Натисніть тут</button>
-    </div>
+    <vDidUFindMistake
+        :objInfo="lessonObj"
+    >
+    </vDidUFindMistake>
 
 </div>
 
-<vModalErr v-if="showModalForMistake" @closeModal="showModalForMistake = false" :obj="'lesson_' + lessonObj.lesson"></vModalErr>
 
 </template>
 
 <script>
-import vModalErr from './modalErr.vue';
 import vPlayAudio from './vPlayAudio.vue';
+import vDidUFindMistake from './vDidUFindMistake.vue';
 export default {
     name: 'vLesson',
     components: {
-        vModalErr,
         vPlayAudio,
+        vDidUFindMistake,
     },
     props: {
         lessonObj: Object,
@@ -89,7 +89,6 @@ export default {
     emits: ['backToMenu', 'start_quiz'],
     data() {
         return {
-            showModalForMistake: false,
             arr:        [ [
             {
                 "id": "19",
@@ -192,10 +191,6 @@ export default {
         font-style: italic;
     }
 
-    .listen {
-        width: 20px;
-    }
-
     .lesson :deep() .ua {
         color: grey;
         font-style: italic;
@@ -204,7 +199,7 @@ export default {
         width: fit-content;
         margin: auto;
     } 
-    .buttons, .mistake {
+    .buttons {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
@@ -213,17 +208,5 @@ export default {
     .buttons button {
         font-weight: bold;
     }
-    .mistake button {
-        width: fit-content;
-        margin: auto;
-        font-style: italic;
-        text-decoration: underline;
-        border: none;
-        background-color: transparent;
-    }
-    .mistake button:hover {
-        color: grey;
-    }
-
 
 </style>

@@ -48,8 +48,11 @@
                 Пропустити
             </button>
         </div>
-
     </div>
+    <VDidUFindMistake
+            :objInfo="task">
+    </VDidUFindMistake>
+
 </div>
 </template>
 
@@ -57,11 +60,13 @@
 import vPlayAudio from './vPlayAudio.vue';
 import func from '@/helpers/jsFunc'
 import dictionary from './dictionary/task_words';
+import VDidUFindMistake from './vDidUFindMistake.vue';
 export default {
     name: 'vTask',
     components: {
-        vPlayAudio,
-    },
+    vPlayAudio,
+    VDidUFindMistake
+},
     props: {
         task: {
             type: Array,

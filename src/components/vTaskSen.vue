@@ -45,23 +45,31 @@
                 {{dictionary.button[language]}}
             </button>
             <div 
-            class="skip"
-            @click="skipTask">
-            <button>
-                Пропустити
-            </button>
+                class="skip"
+                @click="skipTask">
+                <button>
+                    Пропустити
+                </button>
+            </div>
+
         </div>
-        </div>
+        <vDidUFindMistake
+            :objInfo="task"
+            >
+        </vDidUFindMistake>
     </div>
+
     </template>
     
     <script>
     import func from '@/helpers/jsFunc'
     import dictionary from './dictionary/task_create_sentence'
+    import VDidUFindMistake from './vDidUFindMistake.vue'
     export default {
         name: 'vTaskSen',
         components: {
-        },
+    VDidUFindMistake
+},
         props: {
             task: {
                 type: Object,
