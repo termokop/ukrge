@@ -154,7 +154,7 @@ export default {
             this.$emit('backToMenu')
         },
         startQuiz() {
-            this.$emit('start_quiz', this.arr)
+            this.$emit('start_quiz', this.lesson)
         }
     },
     created() {

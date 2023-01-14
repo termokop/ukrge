@@ -102,8 +102,8 @@ export default {
         
     },
     methods: {
-        start_quiz(arr) {
-            this.$emit('start_quiz', arr)
+        start_quiz(arr, show_hints) {
+            this.$emit('start_quiz', arr, show_hints)
         },
         choose(str) {
             this.whatIsContent = str

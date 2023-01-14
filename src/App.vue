@@ -1,6 +1,7 @@
 <template>
   <vQuizz 
     :quiz="quiz_arr" 
+    :show_hints="show_hints"
     @finish_quiz="finish_quiz"
     :language="language" 
     v-if="quiz_arr"></vQuizz>
@@ -45,7 +46,8 @@ export default {
             language: 'ua',
             loader: false,
             quiz_arr: null,
-            show_quiz: false      
+            show_quiz: false,
+            show_hints: null,
         }
     },
     methods: {
@@ -66,9 +68,9 @@ export default {
         localStorage.removeItem('userInfo')
         this.isUserLoggined = false
       },
-      start_quiz(arr) {
+      start_quiz(arr, show_hints) {
         this.quiz_arr = arr
-        console.log(arr)
+        this.show_hints = show_hints
       },
       finish_quiz() {
         this.start_quiz(null)

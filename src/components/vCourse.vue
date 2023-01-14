@@ -18,7 +18,7 @@
                     <img v-if="user_progress+3 > n * 3 + 0" class="done" src="../assets/done.svg" alt="done">
                 </button>
                 <button 
-                    @click.prevent="testFn" 
+                    @click.prevent="practice(n)" 
                     :disabled="user_progress + 3 < n * 3"
                     class="practice"
                     >
@@ -26,6 +26,7 @@
                     <img v-if="user_progress+3 > n * 3 + 1" class="done" src="../assets/done.svg" alt="done">
                 </button>
                 <button 
+                    @click.prevent="exam(n)" 
                     :disabled="user_progress + 3 < n * 3"
                     class="exam"
                     >
@@ -75,11 +76,70 @@ export default {
             lessonObj: null,
             isLessonOpened: false,
             user_progress: +localStorage.getItem('progress_in_course'),
+            arr:        [ [
+            {
+                "id": "19",
+                "ge": "დამეხმარეთ",
+                "ge_voice": "",
+                "ua": "допоможіть",
+                "ua_voice": "",
+                "topic": "basic_words_1",
+                "type": "words"
+            },
+            {
+                "id": "3",
+                "ge": "როგორა ხართ",
+                "ge_voice": "",
+                "ua": "як у вас справи",
+                "ua_voice": "",
+                "topic": "basic_words_1",
+                "type": "words"
+            },
+            {
+                "id": "2",
+                "ge": "გამარჯობა",
+                "ge_voice": "",
+                "ua": "привіт",
+                "ua_voice": "",
+                "topic": "basic_words_1",
+                "type": "words"
+            },
+            {
+                "id": "105",
+                "ge": "დროებით",
+                "ge_voice": "",
+                "ua": "до зустрічі",
+                "ua_voice": "",
+                "topic": "basic_words_1",
+                "type": "words"
+            }
+        ],
+        {
+            "id": "5",
+            "question": "Мене звати Ана",
+            "answer": "<...> <...> <...>",
+            "correct_answer": "მე მქვია ანა",
+            "variants_real": "მე,მქვია,ანა",
+            "variants_fake": "დროებით,როგორ,კარგ",
+            "topic": "basic_words_1",
+            "type": "create_sentence"
+        },
+        {
+            "id": "9",
+            "question": "Доброго ранку",
+            "answer": "<...> მშვიდობისა",
+            "correct_answer": "დილა მშვიდობისა",
+            "variants_real": "დილა",
+            "variants_fake": "საღამო,გქვია,შუადღე",
+            "topic": "basic_words_1",
+            "type": "create_sentence"
+        }],  
         }
     },
     methods: {
-        start_quiz(arr) {
-            this.$emit('start_quiz', arr)
+        start_quiz(lesson) {
+            this.practice(lesson)
+            this.isLessonOpened = false
         },
         async startLesson(lesson) {
             this.change_user_progress((lesson-1)*3+1)
@@ -108,8 +168,15 @@ export default {
             let current = localStorage.getItem('progress_in_course')
             localStorage.setItem('progress_in_course', n > current ? n : current)
         },
-        testFn() {
-            console.log(this.user_progress)
+        practice(lesson) {
+            this.change_user_progress((lesson-1)*3+2)
+            let show_hints = true
+            this.$emit('start_quiz', this.arr, show_hints)
+        },
+        exam(lesson) {
+            this.change_user_progress((lesson-1)*3+3)
+            let show_hints = false
+            this.$emit('start_quiz', this.arr, show_hints)
         }
     },
     updated() {

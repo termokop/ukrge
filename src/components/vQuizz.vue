@@ -11,6 +11,7 @@
             <vTaskSen 
                 v-if="index === counter && !showScore && typeof(quiz[counter]) === 'object' && quiz[counter].type === 'create_sentence'" 
                 :task="quiz[counter]" 
+                :show_hints="show_hints"
                 @nextTask="nextTask"
                 :language="language"
                 >
@@ -44,6 +45,7 @@ export default {
     props: {
         quiz: Array,
         language: String,
+        show_hints: Boolean,
     },
     emits: ['hide_menu'],
     data() {
@@ -64,13 +66,6 @@ export default {
             
         }
     },
-    created() {
-        this.$emit('hide_menu', true)
-        alert(this.quiz)
-    },
-    unmounted() {
-        this.$emit('hide_menu', false)
-    }
 }
 
 

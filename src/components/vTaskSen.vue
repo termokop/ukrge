@@ -7,7 +7,7 @@
             <div class="subquestion">
                 <p class="tooltip">
                     <span  v-html="func.translit(task.question,language)"></span> 
-                    <span class="tooltiptext">{{task.correct_answer}}</span>
+                    <span  v-if="show_hints" class="tooltiptext">{{task.correct_answer}}</span>
                 </p>
             </div>
             <div class="answer">
@@ -76,6 +76,7 @@
                 required: true
             },
             language: String,
+            show_hints: Boolean,
         },
         data() {
             return {
