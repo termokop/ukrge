@@ -5,7 +5,9 @@
     @finish_quiz="finish_quiz"
     :language="language" 
     v-if="quiz_arr"></vQuizz>
-  <div class="content">
+  <div 
+    class="content"
+    v-show="!quiz_arr">
     <vHeader :language="language" @change-lang="updateLang"></vHeader>
     
     <vAuth v-if="!isUserLoggined" :language="language"  @user-loginned-success="login"></vAuth>
