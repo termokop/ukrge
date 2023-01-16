@@ -76,64 +76,6 @@ export default {
             lessonObj: null,
             isLessonOpened: false,
             user_progress: +localStorage.getItem('progress_in_course'),
-            arr:        [ [
-            {
-                "id": "19",
-                "ge": "დამეხმარეთ",
-                "ge_voice": "",
-                "ua": "допоможіть",
-                "ua_voice": "",
-                "topic": "basic_words_1",
-                "type": "words"
-            },
-            {
-                "id": "3",
-                "ge": "როგორა ხართ",
-                "ge_voice": "",
-                "ua": "як у вас справи",
-                "ua_voice": "",
-                "topic": "basic_words_1",
-                "type": "words"
-            },
-            {
-                "id": "2",
-                "ge": "გამარჯობა",
-                "ge_voice": "",
-                "ua": "привіт",
-                "ua_voice": "",
-                "topic": "basic_words_1",
-                "type": "words"
-            },
-            {
-                "id": "105",
-                "ge": "დროებით",
-                "ge_voice": "",
-                "ua": "до зустрічі",
-                "ua_voice": "",
-                "topic": "basic_words_1",
-                "type": "words"
-            }
-        ],
-        {
-            "id": "5",
-            "question": "Мене звати Ана",
-            "answer": "<...> <...> <...>",
-            "correct_answer": "მე მქვია ანა",
-            "variants_real": "მე,მქვია,ანა",
-            "variants_fake": "დროებით,როგორ,კარგ",
-            "topic": "basic_words_1",
-            "type": "create_sentence"
-        },
-        {
-            "id": "9",
-            "question": "Доброго ранку",
-            "answer": "<...> მშვიდობისა",
-            "correct_answer": "დილა მშვიდობისა",
-            "variants_real": "დილა",
-            "variants_fake": "საღამო,გქვია,შუადღე",
-            "topic": "basic_words_1",
-            "type": "create_sentence"
-        }],  
         }
     },
     methods: {
@@ -164,14 +106,40 @@ export default {
             this.loader = false
             }
         },
+        async startQuizz(key) {
+            this.loader = true
+            const url = 'https://www.ukrge.site/api/get_task_for_course.php'
+            const json = JSON.stringify({topic: key})
+            try {
+                let response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*' 
+                    },
+                    body: json
+                });
+                let result = await response.json()
+                if (result.task.length < 1) {
+                    throw new Error('not found any tasks')
+                }
+            let show_hints = true
+            this.$emit('start_quiz', result.task, show_hints)
+            } catch (error) {
+                alert(error)
+                console.log(error)
+            } finally {
+                this.loader = false
+            }
+        },
         change_user_progress(n) {
             let current = localStorage.getItem('progress_in_course')
             localStorage.setItem('progress_in_course', n > current ? n : current)
         },
         practice(lesson) {
             this.change_user_progress((lesson-1)*3+2)
-            let show_hints = true
-            this.$emit('start_quiz', this.arr, show_hints)
+            this.startQuizz("lesson_" + lesson)
         },
         exam(lesson) {
             this.change_user_progress((lesson-1)*3+3)
