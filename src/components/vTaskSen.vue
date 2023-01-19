@@ -13,12 +13,12 @@
             <div class="answer">
                 <p ref="answer">
                     <span v-for="(word,index) in sentence" :key="word"> 
-                        <span v-if="word!=='<...>'">{{word + ' '}}</span> 
+                        <span v-if="word!=='<...>'">{{word}}</span> 
                         <span 
                             class="placehold" 
                             :class="{wrongAns:wrongAns,corrAns: corrAns}"
                             @click="removeWord(index)" 
-                            v-else>{{count(index) + ' '}}
+                            v-else>{{count(index)}}
                         </span>
                     </span>
                 </p>
@@ -81,7 +81,7 @@
         data() {
             return {
                 dictionary,
-                variants: [...this.task.variants_fake.split(','), ...this.task.variants_real.split(',')],
+                variants: [...this.task.variants_fake.split(','), ...this.task.variants_real.split(',')], // тут всі варіанти відповідей
                 sentence: [],
                 answersArr: [],
                 indexes: [],
@@ -93,6 +93,7 @@
                 corrAns: false
             }
         },
+
         methods: {
             removeWord(index) {
                 //console.log("remove word")
@@ -135,7 +136,7 @@
                 this.$emit('nextTask', this.pointsForTheTask)
             },
 
-            checkBtn() {
+            checkBtn() { /// після порізки на речення на масив, перемістити це в компутед і перевіряти чи вкоючає масив "..."
                 for ( let value of this.indexes) {
                     if(this.answersArr[value] === '...') {
                         this.showCheckBtn = false
@@ -154,12 +155,12 @@
             
             
         },
-        computed: {
+        computed: { // перемістити в beforeMounted?
             sorted() {return this.func.shuffle([...this.variants])}
             
         },
         created() {
-            this.sentence = this.task.answer.split(' ')
+            this.sentence = this.task.answer.split(/([\s,!?;:])/).filter(function(e) { return e });
             window.addEventListener('keydown', e=> {
                 if(e.key === 'Enter' && this.showCheckBtn) this.nextTask()
             })
@@ -167,6 +168,8 @@
         },
         mounted() {
             this.resetAnswers()
+        },
+        updated() {
         }
     }
     
