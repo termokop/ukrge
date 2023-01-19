@@ -9,9 +9,6 @@ Class LessonInfo
     private $words_table = 'words';
     private $sentence_table = 'sentences';
 
-    // //вхідні параметри класу
-    //  public $lesson;
-
     public function __construct($db)
     {
         $this->conn = $db;
@@ -78,7 +75,7 @@ Class LessonInfo
         function getWords($lesson)
         {
             //створення SQL-запиту на отримання тестових даних
-            $query = "SELECT id,ge,ua,voice FROM " . $this->words_table . " WHERE lesson = '". $lesson ."'";
+            $query = "SELECT id,ge,ua,voice,ua_additional FROM " . $this->words_table . " WHERE lesson = '". $lesson ."'";
     
             //підготовка запиту
             $stmt = $this->conn->prepare($query);

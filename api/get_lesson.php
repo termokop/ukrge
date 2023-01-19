@@ -33,6 +33,8 @@ function cors() {//-------------------------------------------------------------
     
         exit(0);
     }
+    
+  #  echo "You have CORS!";
 }
 cors();
 
@@ -50,10 +52,10 @@ $lesson = new LessonInfo($db);
 $data = json_decode(file_get_contents("php://input"));
 
 //встановлюємо значення
-if(($lesson->info = $lesson->getLessonTheorty($data->lesson)) && 
-    ($lesson->words = $lesson->getWords($data->lesson)) && 
-    ($lesson->letters = $lesson->getLetters($data->lesson)) &&
-    ($lesson->sentences = $lesson->getSentences($data->lesson))) {
+$lesson->info = $lesson->getLessonTheorty($data->lesson);
+$lesson->words = $lesson->getWords($data->lesson);
+$lesson->letters = $lesson->getLetters($data->lesson);
+$lesson->sentences = $lesson->getSentences($data->lesson);
 
 
     echo json_encode(
@@ -65,6 +67,3 @@ if(($lesson->info = $lesson->getLessonTheorty($data->lesson)) &&
             "sentences" => $lesson->sentences,
         )
         );
-    } else {
-        echo "Сталася непередбачувана помилка";
-    }
