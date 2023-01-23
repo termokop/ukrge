@@ -106,7 +106,7 @@ Class LessonInfo
         function getSentences($lesson)
         {
             //створення SQL-запиту реченьна отримання тестових даних
-            $query = "SELECT id,ge,ua,voice FROM " . $this->sentence_table . " WHERE lesson = '". $lesson ."'";
+            $query = "SELECT id,ge,ua,voice FROM " . $this->sentence_table . " WHERE lesson = '". $lesson ."' AND for_lesson = '1'";
     
             //підготовка запиту
             $stmt = $this->conn->prepare($query);
