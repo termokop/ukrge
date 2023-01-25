@@ -3,6 +3,9 @@ node_modules
 /dist
 /api/Config
 
+get_sentences.php
+set_sentance.php
+
 
 # local env files
 .env.local

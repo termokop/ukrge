@@ -1,10 +1,8 @@
 <template>
-    
     <vLoader :loader="loader"></vLoader>
     <div class="forms-section">
         <h1 class="section-title"><span v-html="dictionary.title[language]"></span></h1>
-        
-            
+         
         <div class="buttons">
           <div 
             class="form-wrapper" 
@@ -22,7 +20,6 @@
               <span class="underline"></span>
             </button>
           </div>
-          <!-- форма логін -->
             <div class="forms">
             <form class="form form-login" v-if="isLogin">
                 <div class="fieldset">
@@ -50,14 +47,13 @@
                         type="submit" 
                         :class="{ disabledButton: isLoginBtnDisabled }"
                         class="btn-login"  
-                        @click.prevent="login" 
+                        @click.prevent="login(false)" 
                         :disabled="isLoginBtnDisabled" 
                         >
                         {{dictionary.logIn[language]}}
                     </button>
                 </div>
             </form>
-          <!-- форма реєстрації -->
           
             <form class="form form-signup" v-if="!isLogin">
                 <div class="fieldset">
@@ -100,8 +96,29 @@
                     </button>
                 </div>
             </form>
+
+
+            <div id="g_id_onload"
+                data-client_id="365605108602-ec3mt20ef081ggcdre1nti2tldjjen6u.apps.googleusercontent.com"
+                data-context="use"
+                data-ux_mode="popup"
+                data-callback="handleCredentialResponse"
+                data-nonce=""
+                data-close_on_tap_outside="false"
+                data-itp_support="true">
+            </div>
+
+            <div class="g_id_signin"
+                data-type="standard"
+                data-shape="rectangular"
+                data-theme="outline"
+                data-text="signin_with"
+                data-size="large"
+                data-logo_alignment="left">
+            </div>
         </div>
     </div>
+
   </template>
   
   <script>
@@ -130,7 +147,8 @@
             email: [],
             password: [],
             repeatPassword: []
-        }
+        },
+        responsePayload: [],
       }
     },
     methods: {
@@ -142,13 +160,18 @@
             // вибір форми реєстрації
             this.isLogin = false
         },
-        async login() { // що відбувається, коли користувач натискає кнопку ЛОГІН
+        async login(goo) { // що відбувається, коли користувач натискає кнопку ЛОГІН
             this.loader = true
             const url = 'https://www.ukrge.site/api/login.php'
-            let data = {
-                email: this.inputLogin,
-                password: this.inputPassword
-            }
+            let data = {}
+            if(!goo) {
+                data = {
+                    email: this.inputLogin,
+                    password: this.inputPassword
+                } 
+            console.log("data with",data)
+            } else data = goo
+            console.log(JSON.stringify(data))
             try {
                 let response = await fetch(url, {
                     method: 'POST',
@@ -214,9 +237,28 @@
         passwordRepeatValidation() {
             if(this.inputRepeatPassword === this.inputPassword) this.inputErrors.repeatPassword = []
             else this.inputErrors.repeatPassword[0] = (dictionary.uncorrectRepeatPassword[this.language])
+        },
+        decodeJwtResponse(token) {
+            let base64Url = token.split('.')[1]
+            let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload)
+        },
+        handleCredentialResponse(response) {
+            this.responsePayload = this.decodeJwtResponse(response.credential);
+            console.log(this.responsePayload)
+            let objGooLogin = {
+                email: this.responsePayload.email,
+                jti: this.responsePayload.jti,
+                given_name: this.responsePayload.given_name,
+                family_name: this.responsePayload.family_name,
+                picture: this.responsePayload.picture
+            }
+            console.log(objGooLogin)
+            this.login(objGooLogin)
         }
-        
-
     },
     computed: {
         isLoginBtnDisabled() {
@@ -227,6 +269,9 @@
             if(this.inputErrors.email.length>0 || this.inputErrors.password.length>0 || this.inputLogin === "" || this.inputPassword === '' || this.inputRepeatPassword === "" || this.inputErrors.repeatPassword.length>0) return true
             return false
         },
+    },
+    mounted() {
+        window.handleCredentialResponse = this.handleCredentialResponse
     }
  }
   
