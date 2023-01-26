@@ -53,6 +53,7 @@ export default {
         text-decoration: underline;
         border: none;
         background-color: transparent;
+        color: gray;
     }
     .mistake button:hover {
         color: grey;
