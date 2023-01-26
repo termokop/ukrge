@@ -23,8 +23,8 @@ cors();//***********************************************************************
  
 // Файли для з'єднання з БД
 include_once "./Config/Database.php";
-include_once "./Objects/User.php";
-include_once "./Objects/UsersProgress.php";//----------------------------------------------------------
+include "./Objects/User.php";
+include "./Objects/UsersInfo.php";//----------------------------------------------------------
  
 // з'єднуємося з БД
 $database = new Database();
@@ -39,24 +39,33 @@ $data = json_decode(file_get_contents("php://input"));
 // Встановлюємл значення
 $user->email = $data->email;
 $email_exists = $user->emailExists();
-$jtiGoogle = $data->jti;
-
-if(!$jtiGoogle) {
- 
-// Файлы для JWT будут здесь
-
-// Подключение файлов JWT
-    include_once "Config/Core.php";
-    include_once "libs/php-jwt/BeforeValidException.php";
-    include_once "libs/php-jwt/ExpiredException.php";
-    include_once "libs/php-jwt/SignatureInvalidException.php";
-    include_once "libs/php-jwt/JWT.php";
-    use \Firebase\JWT\JWT;
+$user->password = $data->password;
+// Підключення файлів JWT
+include_once "Config/Core.php";
+include_once "libs/php-jwt/BeforeValidException.php";
+include_once "libs/php-jwt/ExpiredException.php";
+include_once "libs/php-jwt/SignatureInvalidException.php";
+include_once "libs/php-jwt/JWT.php";
+use \Firebase\JWT\JWT;
     
+if ( // Якщо користувач ще не зареєстрований — виконуємо реєстрацію
+    !empty($user->email) &&
+        $email_exists == 0 &&
+    !empty($user->password) &&
+    $user->create() ) {
+    // Заносимо інфо про користувача, зчитане з google
+        $userProgress = new UsersInfo($db);
+        $userProgress->email = $data->email;
+        $userProgress->name = $data->given_name;
+        $userProgress->picture = $data->picture;
+        $userProgress->nickname = "";
+        $userProgress->about_yourself = "";
+        $userProgress->create();
+}
+$email_exists = $user->emailExists(); // заносимо дані про користувача в об'єкт user
     // Существует ли электронная почта и соответствует ли пароль тому, что находится в базе данных
-    if ($email_exists && password_verify($data->password, $user->password)) {
-    
-        $token = array(
+if ($email_exists &&  password_verify($data->password, $user->password)) {
+    $token = array(
         "iss" => $iss,
         "aud" => $aud,
         "iat" => $iat,
@@ -65,56 +74,36 @@ if(!$jtiGoogle) {
             "id" => $user->id,
             "email" => $user->email
         )
-        );
-    
-        // Код ответа
-        http_response_code(200);
+    );
 
-        //my code start--------------------------------------------------------------------
-        $myuser = new UsersProgress($db);
-        $sql = "SELECT * FROM progress WHERE email = '". $data->email. "'";
-        $result = $myuser->conn->query($sql);
-        $row = $result->fetch();
+    // Код ответа
+    http_response_code(200);
 
-        $myuser->email = $row['email'];
-        $myuser->nickname = $row['nickname'];
-        $myuser->name = $row['name'];
-        $myuser->gender = $row['gender'];
-        $myuser->country = $row['country'];
-        $myuser->about_yourself = $row['about_yourself'];
-        $myuser->lang = $row['lang'];
-        $myuser->phone = $row['phone'];
-        $myuser->icon = $row['icon'];
-        $myuser->birth = $row['birth'];
-        $myuser->id = $user->id;
-        unset($myuser->conn); // видаляю поле conn
-        //echo $myuser;
+    // Зчитую інфо про користувача з БД щоб надіслати відповідь про вдалий вхід
+    $myuser = new UsersInfo($db);
+    $sql = "SELECT * FROM progress WHERE email = '". $data->email. "'";
+    $result = $myuser->conn->query($sql);
+    $row = $result->fetch();
 
-        #echo json_encode($myuser);
-        //my code finish------------------------------
+    $myuser->email = $row['email'];
+    $myuser->nickname = $row['nickname'];
+    $myuser->name = $row['name'];
+    $myuser->about_yourself = $row['about_yourself'];
+    $myuser->picture = $row['picture'];
+    unset($myuser->conn); // видаляю поле conn
+    //echo $myuser;
 
-    
-        // Создание jwt
-        $jwt = JWT::encode($token, $key, 'HS512');
-        echo json_encode(
-            array(
-                "message" => "Успішний вхід в систему",
-                "jwt" => $jwt,
-                "userInfo" => $myuser,//--------------------------------------------------------------------
-                
-            )
-        );
-    }
+    #echo json_encode($myuser);
+
+
+    // Создание jwt
+    $jwt = JWT::encode($token, $key, 'HS512');
+    echo json_encode(
+        array(
+            "message" => "Success",
+            "jwt" => $jwt,
+            "userInfo" => $myuser,//
+            
+        )
+    );
 }
- 
-// Если электронная почта не существует или пароль не совпадает,
-// Сообщим пользователю, что он не может войти в систему
-/*else {
- 
-  // Код ответа
-  http_response_code(401);
-
-  // Скажем пользователю что войти не удалось
-  echo json_encode(array("message" => "Ошибка входа"));
-}
-?>*/
