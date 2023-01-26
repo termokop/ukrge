@@ -58,15 +58,7 @@
         async login(goo) { // що відбувається, коли користувач натискає кнопку ЛОГІН
             this.loader = true
             const url = 'https://www.ukrge.site/api/login.php'
-            let data = {}
-            if(!goo) {
-                data = {
-                    email: this.inputLogin,
-                    password: this.inputPassword
-                } 
-            console.log("data with",data)
-            } else data = goo
-            console.log(JSON.stringify(data))
+            let data = goo
             try {
                 let response = await fetch(url, {
                     method: 'POST',
