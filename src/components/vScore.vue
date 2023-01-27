@@ -67,6 +67,7 @@ export default {
         maxScore: Number,
         language: String,
     },
+    emits: ['finish_quiz'],
     data() {
         return {
             dictionary,

@@ -126,6 +126,7 @@ export default {
                 }
             let show_hints = true
             this.$emit('start_quiz', result.task, show_hints)
+            console.log(result.task)
             } catch (error) {
                 alert(error)
                 console.log(error)

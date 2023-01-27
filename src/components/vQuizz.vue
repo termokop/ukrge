@@ -47,7 +47,7 @@ export default {
         language: String,
         show_hints: Boolean,
     },
-    emits: ['hide_menu'],
+    emits: ['hide_menu','finish_quiz'],
     data() {
         return {
             counter: 0,

@@ -57,12 +57,15 @@ $task_creat_sent = array_slice($task_creat_sent, 0, 8);
 // $task_creat_sent[0]["variants_fake"] = $task_words[0][0]["ua"];
 
 for ($i = 0; $i < count($task_creat_sent); $i++) {
-    for ($j = 0; $j < 4; $j++) {
+    for ($j = 0; $j < 3; $j++) {
         shuffle($task_words);
-     $task_creat_sent[$i]["variants_fake"][] = $task_words[$j][0]["ua"];
+        if(in_array($task_words[$j][0]["ua"], $task_creat_sent[$i]["variants_fake"]) || !$task_words[$j][0]["ua"]) continue;
+        $task_creat_sent[$i]["variants_fake"][] = $task_words[$j][0]["ua"];
     }
-    $task_creat_sent[$i]["variants_fake"] = implode(",", $task_creat_sent[$i]["variants_fake"]);
+    
+    $task_creat_sent[$i]["variants_fake"] = implode(",",$task_creat_sent[$i]["variants_fake"]);
     $task_creat_sent[$i]["variants_fake"] = str_replace(" ", ",", $task_creat_sent[$i]["variants_fake"]);
+        // print_r($task_creat_sent[$i]["variants_fake"]);
 }
 
 shuffle($task_words);
