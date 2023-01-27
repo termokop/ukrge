@@ -2,53 +2,37 @@
   <vLoader :loader="loader"></vLoader>
   <h2>{{dictionary.title[language]}}</h2>
   <div class="form">
-    <form >
-    <table>
-      <tr>
-        <td  class="tooltip">
-          <label for="name">{{dictionary.name[language]}}:*</label>
-          <span class="tooltiptext">{{dictionary.nameTip[language]}}</span>
-        </td>
-        <td>
+    <div class="group"> 
           <input 
             type="text" 
             id="name" 
-            placeholder="Piter Parker"
             maxlength="20" 
             required minlength="4"
             v-model="name" />
-        </td>
-      </tr>
-      <tr>
-        <td class="tooltip">
-          <label for="nickname">{{dictionary.nickname[language]}}:*</label>
-          <span class="tooltiptext">{{dictionary.nicknameTip[language]}}</span>
-        </td>
-        <td>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label>Ім'я</label>
+    </div>
+    <div class="group"> 
           <input 
             type="text" 
-            id="nickname" 
-            placeholder="Spiderman" 
-            maxlength="15" 
+            id="nickname"
+            maxlength="20" 
             required
             v-model="nickname">
-        </td>
-      </tr>
-
-        <tr>
-          <td>
-            <label for="about_yourself">{{dictionary.aboutYourself[language]}}:</label>
-          </td>
-          <td>
-            <textarea id="about_yourself" cols="20" rows="5" placeholder="your hobby, credo, lifestyle...." maxlength="100" v-model="about_yourself"></textarea>
-          </td>
-        </tr>
-      </table>
-      <input class="button" type="submit" :value="dictionary.submit[language]" @click.prevent="saveUserInfo" >
-      
-    </form>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label>Нікнейм</label>
     </div>
-    
+    <div class="group"> 
+          <input type="text" id="about_yourself" v-model="about_yourself" required/>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label>Про Вас</label>
+    </div>
+           <input class="button" type="submit" :value="dictionary.submit[language]" @click.prevent="saveUserInfo" >
+  </div>
+
 </template>
 
 <script>
@@ -62,7 +46,6 @@ export default {
     },
   emits: ['canGoStudy'],
   props: {
-    //userInfo: Object,
     language: String
   },
   data() {
@@ -131,94 +114,108 @@ export default {
 
 <style scoped>
 
-* {
-  font-size: 16px;
+* { box-sizing:border-box; }
+
+h2 		 { 
+  text-align:center; 
+  margin-bottom:50px; 
 }
-
-h2 {
-  display: block;
-  text-shadow: 1px 1px 2px rgb(159, 159, 159), 0 0 1em rgb(0, 0, 0), 0 0 0.5em rgb(0, 0, 0);
-  color: #fff;
-  width: fit-content;
-  margin: auto;
-  margin-bottom: 20px;
-}
-
-
 .form {
   width: fit-content;
   margin: auto;
-  align-items: center;
-  color: #FFF;
-  background: transparent;
-  border-radius: 10px;
 }
 
-table {
-  align-items: center;
+.group 			  { 
+  position:relative; 
+  margin-bottom:45px; 
+}
+input 				{
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  width:300px;
+  border:none;
+  border-radius: 5px;
+  border-bottom:1px solid #757575;
+}
+input:focus 		{ outline:none; }
+
+/* LABEL ======================================= */
+label 				 {
+  color:#999; 
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.6s ease all; 
+  -moz-transition:0.6s ease all; 
+  -webkit-transition:0.6s ease all;
 }
 
-input, textarea, select {
-  width: 100%;
-  background: #ddd;
-  color: #000;
-  box-shadow: none;
-  border-radius: 10px;
+/* active state */
+input:focus ~ label, input:valid ~ label 		{
+  top:-20px;
+  font-size:14px;
+  color:#FFFFFF;
 }
 
-td{
-  align-self: flex-end;
-  margin: 10px;
-  padding: 4px;
+/* BOTTOM BARS ================================= */
+.bar 	{ position:relative; display:block; width:300px; }
+.bar:before, .bar:after 	{
+  content:'';
+  height:2px; 
+  width:0;
+  bottom:1px; 
+  position:absolute;
+  background: #000000; 
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+.bar:before {
+  left:50%;
+}
+.bar:after {
+  right:50%; 
 }
 
-.button {
-  display: block;
-  margin: auto;
-  color: #000;
-  padding: 10px;
-  width: 50%;
+/* active state */
+input:focus ~ .bar:before, input:focus ~ .bar:after {
+  width:50%;
 }
 
-textarea { 
-  resize: none; 
+/* HIGHLIGHTER ================================== */
+.highlight {
+  position:absolute;
+  height:60%; 
+  width:100px; 
+  top:25%; 
+  left:0;
+  pointer-events:none;
+  opacity:0.5;
 }
 
-label {
-  display: block;
-  text-align: right;
-  margin-right: 0px;
-
+/* active state */
+input:focus ~ .highlight {
+  -webkit-animation:inputHighlighter 0.3s ease;
+  -moz-animation:inputHighlighter 0.3s ease;
+  animation:inputHighlighter 0.3s ease;
 }
 
-
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: fit-content;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-    opacity: 80%;
-    position: absolute;
-    z-index: 1;
-    font-size: 12px;
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
 }
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
+@-moz-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
 }
-.tooltip .tooltiptext::after {
-    content: " ";
-    position: absolute;
-    bottom: 100%; 
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent transparent black transparent;
+@keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
 }
-
 
 </style>

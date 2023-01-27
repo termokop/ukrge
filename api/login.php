@@ -71,7 +71,6 @@ if ($email_exists &&  password_verify($data->password, $user->password)) {
         "iat" => $iat,
         "nbf" => $nbf,
         "data" => array(
-            "id" => $user->id,
             "email" => $user->email
         )
     );

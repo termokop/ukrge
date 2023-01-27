@@ -1,14 +1,6 @@
 <?php
 
-// Заголовки
-// Заголовки
-#header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-#header("Access-Control-Allow-Methods: POST");
-#header("Access-Control-Max-Age: 3600");
-#header("Access-Control-Allow-Credentials: true");
-#header("Access-Control-Allow-Headers: *");
-
 function cors() {//------------------------------------------------------------------------------
     
     // Allow from any origin
@@ -33,8 +25,6 @@ function cors() {//-------------------------------------------------------------
     
         exit(0);
     }
-    
-  #  echo "You have CORS!";
 }
 cors();
 
@@ -51,14 +41,14 @@ use \Firebase\JWT\Key;
 
 // Файлы, необходимые для подключения к базе данных
 include_once "./Config/Database.php";
-include_once "./Objects/UsersProgress.php";
+include_once "./Objects/UsersInfo.php";
 
 // Получаем соединение с БД
 $database = new Database();
 $db = $database->getConnection();
 
 // Создание объекта "User"
-$user = new UsersProgress($db);
+$user = new UsersInfo($db);
 
 // Получаем данные
 $data = json_decode(file_get_contents("php://input"));
@@ -77,17 +67,10 @@ if ($jwt) {
 
         // Нам нужно установить отправленные данные (через форму HTML) в свойствах объекта пользователя
         $user->email = $data->email;
-        
-        $user->id = $data->id;
         $user->nickname = $data->nickname;
         $user->name = $data->name;
-        $user->country = $data->country;
         $user->about_yourself = $data->about_yourself;
-        $user->lang = $data->lang;
-        $user->phone = $data->phone;
-        $user->icon = $data->icon;
-        $user->birth = $data->birth;
-        $user->gender = $data->gender;
+        $user->picture = $data->picture;
         // Создание пользователя
         if ($user->update()) {
             
@@ -99,7 +82,6 @@ $token = array(
     "iat" => $iat,
     "nbf" => $nbf,
     "data" => array(
-        "id" => $user->id,
         "email" => $user->email
     )
  );
@@ -112,7 +94,7 @@ $token = array(
  // Ответ в формате JSON
  echo json_encode(
      array(
-         "message" => "Пользователь был обновлён",
+         "message" => "Updated",
          "jwt" => $jwt,
          "userInfo" => $user
      )
@@ -127,7 +109,7 @@ $token = array(
             http_response_code(401);
 
             // Показать сообщение об ошибке
-            echo json_encode(array("message" => "Невозможно обновить пользователя"));
+            echo json_encode(array("message" => "Fail"));
         }
     }
 
@@ -139,7 +121,7 @@ $token = array(
 
         // Сообщение об ошибке
         echo json_encode(array(
-            "message" => "Доступ закрыт",
+            "message" => "Re-Auth, please",
             "error" => $e->getMessage()
         ));
     }
@@ -152,5 +134,5 @@ else {
     http_response_code(401);
 
     // Сообщить пользователю что доступ запрещен
-    echo json_encode(array("message" => "Доступ закрыт"));
+    echo json_encode(array("message" => "Auth, please"));
 }
