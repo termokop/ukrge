@@ -83,9 +83,7 @@ class UsersInfo
         // $stmt->bindParam(":picture", $this->picture);
     
         // Якщо виконання пройшло успішно, то информацію про користувача буде збережено в БД
-        print_r($stmt);
         if($stmt->execute()) {
-        echo "Here!!!";
             return true;
         }
         return false;
