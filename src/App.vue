@@ -62,12 +62,14 @@ export default {
         localStorage.setItem('jwt', result.jwt)
         let res_str = JSON.stringify( result.userInfo)
         localStorage.setItem('userInfo',res_str)
+        localStorage.setItem("picture", result.userInfo.picture)
         this.isUserLoggined = true
       },
       logout() {
         // метод щоб розлогіниться
         localStorage.removeItem('jwt')
         localStorage.removeItem('userInfo')
+        localStorage.removeItem('picture')
         this.isUserLoggined = false
         window.location. reload()
       },

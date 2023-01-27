@@ -97,7 +97,7 @@ export default {
             dictionaryModal,
             userInfo: undefined,
             whatIsContent: 'course',
-            picture: JSON.parse(localStorage.getItem('userInfo')).picture,
+            picture: localStorage.getItem('picture'),
             userName: JSON.parse(localStorage.getItem('userInfo')).name,
         }
         

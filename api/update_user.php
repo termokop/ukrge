@@ -70,7 +70,7 @@ if ($jwt) {
         $user->nickname = $data->nickname;
         $user->name = $data->name;
         $user->about_yourself = $data->about_yourself;
-        $user->picture = $data->picture;
+        // $user->picture = $data->picture;
         // Создание пользователя
         if ($user->update()) {
             

@@ -80,7 +80,7 @@ if ($email_exists &&  password_verify($data->password, $user->password)) {
 
     // Зчитую інфо про користувача з БД щоб надіслати відповідь про вдалий вхід
     $myuser = new UsersInfo($db);
-    $sql = "SELECT * FROM progress WHERE email = '". $data->email. "'";
+    $sql = "SELECT * FROM user_info WHERE email = '". $data->email. "'";
     $result = $myuser->conn->query($sql);
     $row = $result->fetch();
 

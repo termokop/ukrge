@@ -61,10 +61,8 @@ class UsersInfo
         $query = "UPDATE " . $this->table_name . "
                 SET
                     nickname = :nickname,
-                    email = :email,
                     name = :name,
-                    about_yourself = :about_yourself,
-                    picture = :picture,
+                    about_yourself = :about_yourself
                 WHERE email = :email";
     
         // Підготовка запиту
@@ -75,17 +73,19 @@ class UsersInfo
         $this->nickname = htmlspecialchars(strip_tags($this->nickname));
         $this->name = htmlspecialchars(strip_tags($this->name));
         $this->about_yourself = htmlspecialchars(strip_tags($this->about_yourself));
-        $this->picture = htmlspecialchars(strip_tags($this->picture));
+        // $this->picture = htmlspecialchars(strip_tags($this->picture));
     
         // Прив'язуємо значення
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":about_yourself", $this->about_yourself);
         $stmt->bindParam(":nickname", $this->nickname);
-        $stmt->bindParam(":picture", $this->picture);
+        // $stmt->bindParam(":picture", $this->picture);
     
         // Якщо виконання пройшло успішно, то информацію про користувача буде збережено в БД
+        print_r($stmt);
         if($stmt->execute()) {
+        echo "Here!!!";
             return true;
         }
         return false;

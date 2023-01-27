@@ -65,6 +65,7 @@
             this.loader = true
             const url = 'https://www.ukrge.site/api/login.php'
             let data = goo
+            console.log(JSON.stringify(data))
             try {
                 let response = await fetch(url, {
                     method: 'POST',

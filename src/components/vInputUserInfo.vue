@@ -44,7 +44,7 @@ export default {
     components: {
         vLoader
     },
-  emits: ['canGoStudy'],
+  // emits: ['canGoStudy'],
   props: {
     language: String
   },
@@ -68,7 +68,6 @@ export default {
         nickname: this.nickname,
         about_yourself: this.about_yourself,
         id: this.newInfo.id,
-        icon: this.newInfo.icon,
         jwt: undefined
       }
       this.newInfo = userNewInfo
@@ -91,11 +90,12 @@ export default {
             body: json
           });
           let result = await response.json()
-          this.$emit('canGoStudy', result.userInfo.nickname)
+          // this.$emit('canGoStudy', result.userInfo.nickname)
           const person = JSON.stringify(result.userInfo)
           localStorage.setItem('userInfo', person)
           alert(dictionaryModal.successUpdate[this.language])
       } catch (error) {
+        console.log(error)
           console.log(dictionaryModal.failUpdate[this.language])
       } finally {
         this.loader = false
