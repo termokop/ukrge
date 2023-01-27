@@ -1,18 +1,17 @@
 <template>
     <div class="main">
       <div class="buttons">
+        <button id="user"  @click.prevent="choose('settings')"><img class="prifilePicture" :src="picture" alt=""> <span class="userName">Привіт, {{userName}}</span></button>
         <button  @click.prevent="choose('course')"><img class="logoBtn" src="../assets/study.svg" alt=""> <span class="textBtn">{{dictionary.study[language]}}</span></button>
         <button  @click.prevent="choose('practice')"><img class="logoBtn" src="../assets/practice.svg" alt=""> <span class="textBtn">{{'Практикуватися'}}</span></button> 
         <button  @click.prevent="choose('temp')"><img class="logoBtn" src="../assets/st_words.svg" alt=""> <span class="textBtn">{{'Вчити слова'}}</span></button>
         <button  @click.prevent="choose('temp')"><img class="logoBtn" src="../assets/comun.svg" alt=""> <span class="textBtn">{{'Знайти друзів'}}</span></button> 
-        <button  @click.prevent="choose('settings')"><img class="logoBtn" src="../assets/settings.svg" alt=""> <span class="textBtn">{{'Налаштування'}}</span></button> <!--реалізація кнопки виходу-->
         <button  @click.prevent="choose('about')"><img class="logoBtn" src="../assets/about.svg" alt=""> <span class="textBtn">{{'Про проєкт'}}</span></button> 
         <button  @click.prevent="choose('help')"><img class="logoBtn" src="../assets/donate.svg" alt=""> <span class="textBtn">{{'Допомогти проєкту'}}</span></button> 
         <button  @click.prevent="this.$emit('logout')"><img class="logoBtn" src="../assets/logout.svg" alt=""> <span class="textBtn">{{dictionary.logout[language]}}</span></button> <!--реалізація кнопки виходу-->
     </div>
 
     <div class="content">
-              <!--анкета користувача, яка автоматично з'являється при першому вході-->
         <vInputUserInfo
             v-if="whatIsContent === 'settings'"
             :language="language"
@@ -59,7 +58,7 @@
     <div class="right-bar">
         <div>
             <p>Цікаві факти про Сакартвело:</p>
-            <p><i>Гості – це божий дар, каже картвельське прислів'я. Тому іноземців тут завжди вітають горами їжі й питва.</i></p>
+            <p><i>Гості — це божий дар, каже картвельське прислів'я. Тому іноземців тут завжди вітають горами їжі й питва.</i></p>
             <hr>
         </div>
         
@@ -98,6 +97,8 @@ export default {
             dictionaryModal,
             userInfo: undefined,
             whatIsContent: 'course',
+            picture: JSON.parse(localStorage.getItem('userInfo')).picture,
+            userName: JSON.parse(localStorage.getItem('userInfo')).name,
         }
         
     },
@@ -195,6 +196,29 @@ img {
  width: 100%;
  display: flex;
  justify-content: center;
+}
+
+#user {
+    display: flex;
+    flex-wrap: wrap;
+    height: 80px;
+    width: fit-content;
+    margin: auto;
+    background-color: transparent;
+}
+
+.prifilePicture{
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    padding: 0;
+    margin: 0;
+    margin: auto;
+}
+.userName {
+    width: 100%;
+    margin: auto;
+    color: #fff;
 }
 
 .logoBtn {

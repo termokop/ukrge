@@ -8,18 +8,15 @@
                 data-context="use"
                 data-ux_mode="popup"
                 data-callback="handleCredentialResponse"
-                data-nonce=""
-                data-close_on_tap_outside="false"
-                data-itp_support="true">
+                data-auto_prompt="false">
             </div>
 
             <div class="g_id_signin"
-                data-type="standard"
-                data-shape="rectangular"
-                data-theme="outline"
-                data-text="signin_with"
-                data-size="large"
-                data-logo_alignment="left">
+                data-type="icon"
+                data-shape="circle"
+                data-theme="filled_blue"
+                data-text="continue_with"
+                data-size="large">
             </div>
 
   </template>
@@ -101,7 +98,7 @@
     },
 
     mounted() {
-        window.handleCredentialResponse = this.handleCredentialResponse
+        window.handleCredentialResponse = this.handleCredentialResponse;
     }
  }
   

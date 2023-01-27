@@ -191,20 +191,6 @@ label {
 
 }
 
-.radio {
-  display: flex;
-}
-
-
-.radio label,
-.radio input {
-  display: inline;
-  margin: 0;
-  padding: 0;
-  justify-content: center;
-  align-content: center;
-
-}
 
 .tooltip .tooltiptext {
     visibility: hidden;

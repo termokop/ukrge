@@ -69,6 +69,7 @@ export default {
         localStorage.removeItem('jwt')
         localStorage.removeItem('userInfo')
         this.isUserLoggined = false
+        window.location. reload()
       },
       start_quiz(arr, show_hints) {
         this.quiz_arr = arr
