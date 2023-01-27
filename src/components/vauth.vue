@@ -1,16 +1,20 @@
 <template>
     <vLoader :loader="loader"></vLoader>
     
-    <h1 class="section-title"><span v-html="dictionary.title[language]"></span></h1>
 
-    <div id="g_id_onload"
+
+    <div class="center">
+        <h1 class="section-title">Вивчайте <a href='https://civil.ge/archives/185960' style='color:#aaa; cursor:pointer'><strike>грузинську</strike></a> картвельську безкоштовно</h1>
+        <div class="info">
+            <p>Вам не потрібен пароль. Авторизація через Google аккаунт:</p>
+            <div id="g_id_onload"
                 data-client_id="365605108602-ec3mt20ef081ggcdre1nti2tldjjen6u.apps.googleusercontent.com"
                 data-context="use"
                 data-ux_mode="popup"
                 data-callback="handleCredentialResponse"
                 data-auto_prompt="false">
             </div>
-
+    
             <div class="g_id_signin"
                 data-type="icon"
                 data-shape="circle"
@@ -18,6 +22,11 @@
                 data-text="continue_with"
                 data-size="large">
             </div>
+        </div>
+
+    </div>
+
+
 
   </template>
   
@@ -103,3 +112,23 @@
  }
   
   </script>
+
+<style scoped>
+
+  * {
+    color: #FFFFFF;
+  }
+  .info {
+    position: absolute;
+    top: 50%;
+    width: fit-content;
+    margin: auto;
+  }
+
+  .g_id_signin {
+    margin: auto;
+    width: fit-content;
+  }
+  
+
+</style>
