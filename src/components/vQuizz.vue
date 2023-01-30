@@ -19,11 +19,11 @@
         </template>
         <vScore 
             v-if="showScore" 
+            :lesson="lesson"
             :score="score" 
             :maxScore="quiz.length"
             :language="language"
-            @repeat="this.$emit('repeat')"
-            @changeTopic="this.$emit('changeTopic')"
+            :show_hints="show_hints"
             @finish_quiz="this.$emit('finish_quiz')"
             >
         </vScore>
@@ -46,6 +46,7 @@ export default {
         quiz: Array,
         language: String,
         show_hints: Boolean,
+        lesson: Number,
     },
     emits: ['hide_menu','finish_quiz'],
     data() {
@@ -66,6 +67,9 @@ export default {
             
         }
     },
+    mounted() {
+        console.log("here",this.quiz)
+    }
 }
 
 

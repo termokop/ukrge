@@ -2,12 +2,13 @@
   <vQuizz 
     :quiz="quiz_arr" 
     :show_hints="show_hints"
+    :lesson="lesson"
     @finish_quiz="finish_quiz"
     :language="language" 
     v-if="quiz_arr"></vQuizz>
   <div 
     class="content"
-    v-show="!quiz_arr">
+    v-if="!quiz_arr">
     <vHeader :language="language" @change-lang="updateLang"></vHeader>
     
     <vAuth v-if="!isUserLoggined" :language="language"  @user-loginned-success="login"></vAuth>
@@ -48,8 +49,8 @@ export default {
             language: 'ua',
             loader: false,
             quiz_arr: null,
-            show_quiz: false,
             show_hints: null,
+            lesson: null,
         }
     },
     methods: {
@@ -63,29 +64,28 @@ export default {
         let res_str = JSON.stringify( result.userInfo)
         localStorage.setItem('userInfo',res_str)
         localStorage.setItem("picture", result.userInfo.picture)
+        localStorage.setItem("course_1", result.userInfo.course_1 ? result.userInfo.course_1 : "")
         this.isUserLoggined = true
       },
       logout() {
         // метод щоб розлогіниться
-        localStorage.removeItem('jwt')
-        localStorage.removeItem('userInfo')
-        localStorage.removeItem('picture')
+        localStorage.clear();
         this.isUserLoggined = false
         window.location. reload()
       },
-      start_quiz(arr, show_hints) {
+      start_quiz(arr, show_hints, lesson) {
         this.quiz_arr = arr
         this.show_hints = show_hints
+        this.lesson = lesson
       },
       finish_quiz() {
         this.start_quiz(null)
       },
     },
     created() {
-      //перевірка на наявність токена в куках #245e06
+      //перевірка на наявність токена в LS #245e06
       // якщо токена там немає, то показувати головну сторінку
       this.isUserLoggined = localStorage.jwt
-
       //якщо юзер авторизований, то показувати мову інтерфейсу залежно від обраного курсу
       // якщо курс ще не обрано -- показувати укр мову
       // let user = localStorage.getItem('userInfo')/// 

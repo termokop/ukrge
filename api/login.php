@@ -60,6 +60,7 @@ if ( // Якщо користувач ще не зареєстрований —
         $userProgress->picture = $data->picture;
         $userProgress->nickname = "";
         $userProgress->about_yourself = "";
+        $userProgress->course_1 = '{"L_1":"0"}';
         $userProgress->create();
 }
 $email_exists = $user->emailExists(); // заносимо дані про користувача в об'єкт user
@@ -89,6 +90,7 @@ if ($email_exists &&  password_verify($data->password, $user->password)) {
     $myuser->name = $row['name'];
     $myuser->about_yourself = $row['about_yourself'];
     $myuser->picture = $row['picture'];
+    $myuser->course_1 = $row['course_1'];
     unset($myuser->conn); // видаляю поле conn
     //echo $myuser;
 

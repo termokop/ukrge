@@ -77,7 +77,7 @@ export default {
                 if (result.task.length < 1) {
                     throw new Error('not found any tasks')
                 }
-                this.$emit('start_quiz',result.task)
+                this.$emit('start_quiz', result.task, true)
             } catch (error) {
                 alert(error)
                 console.log(error)
