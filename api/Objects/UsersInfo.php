@@ -43,7 +43,7 @@ class UsersInfo
         $this->name = htmlspecialchars(strip_tags($this->name));
         $this->picture = htmlspecialchars(strip_tags($this->picture));
         $this->about_yourself = htmlspecialchars(strip_tags($this->about_yourself));
-        $this->course_1 = htmlspecialchars(strip_tags($this->course_1));
+        // $this->course_1 = htmlspecialchars(strip_tags($this->course_1));
 
         // Прив'язуємо значення
         $stmt->bindParam(":email", $this->email);

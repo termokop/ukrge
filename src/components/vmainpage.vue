@@ -1,7 +1,7 @@
 <template>
     <div class="main">
       <div class="buttons">
-        <button id="user"  @click.prevent="choose('settings')"><img class="prifilePicture" :src="picture" alt=""> <span class="userName">Привіт, {{userName}}</span></button>
+        <button id="user"  @click.prevent="choose('settings')"><img class="prifilePicture" :src="picture" alt=""> <span class="userName">Мій профіль</span></button>
         <button  @click.prevent="choose('course')"><img class="logoBtn" src="../assets/study.svg" alt=""> <span class="textBtn">{{dictionary.study[language]}}</span></button>
         <button  @click.prevent="choose('practice')"><img class="logoBtn" src="../assets/practice.svg" alt=""> <span class="textBtn">{{'Практикуватися'}}</span></button> 
         <button  @click.prevent="choose('temp')"><img class="logoBtn" src="../assets/st_words.svg" alt=""> <span class="textBtn">{{'Вчити слова'}}</span></button>
@@ -216,9 +216,11 @@ img {
     margin: auto;
 }
 .userName {
+    padding-top: 5px;
     width: 100%;
     margin: auto;
     color: #fff;
+    font-size: x-small;
 }
 
 .logoBtn {
