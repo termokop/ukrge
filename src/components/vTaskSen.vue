@@ -183,6 +183,9 @@
             width: fit-content;
             margin: auto;
             padding: 0;
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
         }
         .subquestion p  span{
             display: flex;
