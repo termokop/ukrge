@@ -159,6 +159,9 @@ export default {
 h1 {
     color: #fff;
 }
+.content {
+    padding-bottom: 90px;
+}
     .studyMenu {
         display: flex;
         width: 100%;

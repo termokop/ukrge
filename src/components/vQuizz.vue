@@ -1,5 +1,17 @@
 <template>
     <div class="quizz">
+        <div id="close" @click="this.$emit('finish_quiz')">
+            <img class="closeImg" src="../assets/Red_X.svg" alt="">
+        </div>
+        <div id="myProgress">
+            <div 
+                id="myBar"
+                :style="{
+                    'width' : progress + '%'
+                }"
+                >
+            </div>
+        </div>
         <vTask 
             v-if="!showScore && typeof(quiz[counter][0]) === 'object'" 
             :task="quiz[counter]" 
@@ -67,8 +79,11 @@ export default {
             
         }
     },
-    mounted() {
-        console.log("here",this.quiz)
+    computed: {
+        progress () {
+            console.log(this.counter)
+            return ((this.counter + 1) /this.quiz.length) * 100
+        }
     }
 }
 
@@ -82,6 +97,34 @@ export default {
     margin: auto;
     height: 100%
  }
+
+ #myProgress {
+    position: fixed;
+    left: 10%;
+    z-index: 2;
+    width: 80%;
+    margin: auto;
+    background-color: #ddd;
+    border-radius: 10px;
+}
+
+#myBar {
+    height: 10px;
+    background-color: #04AA6D;
+    border-radius: 10px;
+}
+
+#close {
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    z-index: 2;
+    width: fit-content;
+
+}
+.closeImg {
+    width: 25%;
+}
  
 </style>
 
@@ -92,6 +135,7 @@ export default {
         cursor: default;
     }
     .task {
+        padding-top: 30px;
         display: flex;
         flex-wrap: wrap;
         align-content: space-between;
