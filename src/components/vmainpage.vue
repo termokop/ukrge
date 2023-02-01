@@ -157,14 +157,6 @@ export default {
     margin-top: 0;
 }
 
-.showBelowMenu {
-    height: 100vh;
-    overflow-y: scroll;
-}
-
-
-
-
 .content::-webkit-scrollbar {
   width: 0;
 }
@@ -232,6 +224,12 @@ img {
     width: fit-content;
 }
 
+.about {
+    margin: 0;
+    padding: 0;
+    height: fit-content;
+}
+
 @media screen and (max-width: 1000px) {
     .right-bar {
         display: none;
@@ -243,10 +241,6 @@ img {
 
 @media screen and (max-width: 700px) {
 
-
-    .showBelowMenu {
-        height: 85vh;
-    }
 
     .buttons {
         position: fixed;

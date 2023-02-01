@@ -152,4 +152,10 @@ export default {
         font-weight: bold;
     }
 
+    @media screen and (max-width: 700px) {
+        .lesson {
+            padding-bottom: 90px;
+        }
+    }
+
 </style>

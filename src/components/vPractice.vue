@@ -173,6 +173,12 @@ h1 {
     }
 } */
 
+@media screen and (max-width: 700px) {
+        .content {
+            padding-bottom: 90px;
+        }
+    }
+
     @media screen and (max-width: 500px) {
         .studyMenu {
         width: 95vw;
